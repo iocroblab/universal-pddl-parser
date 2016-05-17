@@ -1,4 +1,6 @@
-# universal-pddl-parser
+
+# Universal PDDL Parser
+
 An algorithm for parsing any planning problem in PDDL format.
 
 Currently supports STRIPS planning, temporal planning, multiagent planning.
