@@ -1,7 +1,7 @@
 
 #include "Domain.h"
 
-void Exists::PDDLPrint( std::ostream & s, unsigned indent, const TokenStruct< std::string > & ts, Domain & d ) {
+void Exists::PDDLPrint( std::ostream & s, unsigned indent, const TokenStruct< std::string > & ts, const Domain & d ) const {
 	tabindent( s, indent );
 	s << "( EXISTS\n";
 

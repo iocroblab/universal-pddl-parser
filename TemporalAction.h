@@ -13,7 +13,7 @@ public:
 
 	virtual ~Expression() {}
 	virtual std::string info() = 0;
-	virtual void PDDLPrint( std::ostream & s, const TokenStruct< std::string > & ts, Domain & d ) = 0;
+	virtual void PDDLPrint( std::ostream & s, const TokenStruct< std::string > & ts, const Domain & d ) const = 0;
 	virtual double evaluate() = 0;
 	virtual double evaluate( Instance & ins, const StringVec & par ) = 0;
 	virtual IntSet params() = 0;
@@ -41,7 +41,7 @@ public:
 		return os.str();
 	}
 
-	void PDDLPrint( std::ostream & s, const TokenStruct< std::string > & ts, Domain & d ) {
+	void PDDLPrint( std::ostream & s, const TokenStruct< std::string > & ts, const Domain & d ) const override {
 		s << "( " << op << " ";
 		left->PDDLPrint( s, ts, d );
 		s << " ";
@@ -95,7 +95,7 @@ public:
 		return os.str();
 	}
 
-	void PDDLPrint( std::ostream & s, const TokenStruct< std::string > & ts, Domain & d );
+	void PDDLPrint( std::ostream & s, const TokenStruct< std::string > & ts, const Domain & d ) const override;
 
 	double evaluate() { return 1; }
 
@@ -121,7 +121,7 @@ public:
 		return os.str();
 	}
 
-	void PDDLPrint( std::ostream & s, const TokenStruct< std::string > & ts, Domain & d ) {
+	void PDDLPrint( std::ostream & s, const TokenStruct< std::string > & ts, const Domain & d ) const override {
 		s << value;
 	}
 
@@ -172,10 +172,10 @@ public:
 
 	Expression * parseDuration( Filereader & f, TokenStruct< std::string > & ts, Domain & d );
 
-	void printCondition( std::ostream & s, const TokenStruct< std::string > & ts, Domain & d,
-	                     const std::string & t, And * a );
+	void printCondition( std::ostream & s, const TokenStruct< std::string > & ts, const Domain & d,
+	                     const std::string & t, And * a ) const;
 
-	void PDDLPrint( std::ostream & s, unsigned indent, const TokenStruct< std::string > & ts, Domain & d );
+	void PDDLPrint( std::ostream & s, unsigned indent, const TokenStruct< std::string > & ts, const Domain & d ) const override;
 
 	void parseCondition( Filereader & f, TokenStruct< std::string > & ts, Domain & d, And * a );
 

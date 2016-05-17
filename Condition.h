@@ -14,7 +14,7 @@ public:
 
 	virtual void print( std::ostream & stream ) const = 0;
 
-	virtual void PDDLPrint( std::ostream & s, unsigned indent, const TokenStruct< std::string > & ts, Domain & d ) = 0;
+	virtual void PDDLPrint( std::ostream & s, unsigned indent, const TokenStruct< std::string > & ts, const Domain & d ) const = 0;
 
 	virtual void parse( Filereader & f, TokenStruct< std::string > & ts, Domain & d ) = 0;
 

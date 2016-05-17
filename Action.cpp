@@ -1,7 +1,7 @@
 
 #include "Domain.h"
 
-void Action::PDDLPrint( std::ostream & s, unsigned indent, const TokenStruct< std::string > & ts, Domain & d ) {
+void Action::PDDLPrint( std::ostream & s, unsigned indent, const TokenStruct< std::string > & ts, const Domain & d ) const {
 	s << "( :ACTION " << name << "\n";
 
 	s << "  :PARAMETERS ";

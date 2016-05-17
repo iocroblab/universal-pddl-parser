@@ -1,7 +1,7 @@
 
 #include "Domain.h"
 
-void When::PDDLPrint( std::ostream & s, unsigned indent, const TokenStruct< std::string > & ts, Domain & d ) {
+void When::PDDLPrint( std::ostream & s, unsigned indent, const TokenStruct< std::string > & ts, const Domain & d ) const {
 	tabindent( s, indent );
 	s << "( WHEN\n";
 	if ( pars ) pars->PDDLPrint( s, indent + 1, ts, d );

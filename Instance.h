@@ -9,26 +9,21 @@ public:
 	Domain &d;
 	std::string name;
 	GroundVec init, goal; // initial and goal states
-	TaskVec tgoal; //goal for shop instances
 	
-	bool metric, shop;
+	bool metric;
 
-	Instance( Domain & dom )
-		: d( dom ), metric( false ), shop( false ) {}
+	Instance( Domain & dom ) : d( dom ), metric( false ) {}
 
-	Instance( Domain & dom, const std::string & s, bool htn = false )
-		: d( dom ), metric( false ), shop( htn ) {
-		if(shop) SHOPparse(s);
-		else     parse(s);
+	Instance( Domain & dom, const std::string & s ) : Instance(dom)
+	{
+		parse(s);
 	}
 
-	~Instance() {
+	virtual ~Instance() {
 		for ( unsigned i = 0; i < init.size(); ++i )
 			delete init[i];
 		for ( unsigned i = 0; i < goal.size(); ++i )
 			delete goal[i];
-		for ( unsigned i = 0; i < tgoal.size(); ++i )
-			delete tgoal[i];
 	}
 
 	void parse( const std::string &s) {
@@ -53,18 +48,7 @@ public:
 		}
 	}
 
-	void SHOPparse( const std::string &s) {
-		Filereader f( s );
-		name = f.parseHTNProblemName();
-		f.next();
-
-	    if ( DOMAIN_DEBUG ) std::cout << name << "\n";
-
-		for ( ; f.getChar() != ')'; f.next() ) {
-			parseInit( f );
-			parseGoal( f );
-		}
-	}
+	
 
 	void parseDomain( Filereader & f ) {
 		f.next();
@@ -88,37 +72,22 @@ public:
 	}
 
 
-	void parseGround( Filereader & f, GroundVec & v ) {
-		if ( shop ) {
-			Ground * cs = 0;
-			cs = new Ground( d.preds.get( f.getToken( d.preds ) ) );
-			cs->SHOPparse( f, d.types[0]->constants, d );
-			v.push_back( cs );
-		}
-		else {
-			TypeGround * c = 0;
-			if ( f.getChar() == '=' && !shop) {
-				f.assert( "=" );
-				f.assert( "(" );
+	virtual void parseGround( Filereader & f, GroundVec & v ) {
+		TypeGround * c = 0;
+		if ( f.getChar() == '=') {
+			f.assert( "=" );
+			f.assert( "(" );
 
-				std::string s = f.getToken();
-				int i = d.funcs.index( s );
-				if ( i < 0 ) f.tokenExit( s );
-				
-				if ( d.funcs[i]->returnType < 0 ) c = new GroundFunc< double >( d.funcs[i] );
-				else c = new GroundFunc< int >( d.funcs[i] );
-			}
-			else c = new TypeGround( d.preds.get( f.getToken( d.preds ) ) );
-			c->parse( f, d.types[0]->constants, d );
-			v.push_back( c );
+			std::string s = f.getToken();
+			int i = d.funcs.index( s );
+			if ( i < 0 ) f.tokenExit( s );
+			
+			if ( d.funcs[i]->returnType < 0 ) c = new GroundFunc< double >( d.funcs[i] );
+			else c = new GroundFunc< int >( d.funcs[i] );
 		}
-	}
-
-	void parseTasks( Filereader & f, TaskVec & v ) {
-			Task * t = 0;
-			t = new Task( d.tasks.get( f.getToken( d.tasks ) ) );
-			t->SHOPparse( f, d.types[0]->constants, d );
-			v.push_back( t );
+		else c = new TypeGround( d.preds.get( f.getToken( d.preds ) ) );
+		c->parse( f, d.types[0]->constants, d );
+		v.push_back( c );
 	}
 
 	void parseInit( Filereader & f ) {
@@ -132,36 +101,26 @@ public:
 			std::cout << "  " << init[i];
 	}
 
-	void parseGoal( Filereader & f ) {
+	virtual void parseGoal( Filereader & f ) {
 		f.next();
 		f.assert( "(" );
-		if ( shop ) {
+
+		std::string s = f.getToken();
+		if ( s == "AND" ) {
 			for ( f.next(); f.getChar() != ')'; f.next() ) {
 				f.assert( "(" );
-				parseTasks( f, tgoal );
-			}
-			++f.c;
-		}
-		else
-		{
-			std::string s = f.getToken();
-			if ( s == "AND" ) {
-				for ( f.next(); f.getChar() != ')'; f.next() ) {
-					f.assert( "(" );
-					parseGround( f, goal );
-				}
-				++f.c;
-				f.next();
-			}
-			else {
-				f.c -= s.size();
 				parseGround( f, goal );
 			}
-			f.assert( ")" );
+			++f.c;
+			f.next();
 		}
+		else {
+			f.c -= s.size();
+			parseGround( f, goal );
+		}
+		f.assert( ")" );
 
-		for ( unsigned i = 0; DOMAIN_DEBUG && i < goal.size(); ++i )
-			std::cout << "  " << goal[i];
+		for ( unsigned i = 0; DOMAIN_DEBUG && i < goal.size(); ++i ) std::cout << "  " << goal[i];
 	}
 
 	// for the moment only parse total-cost/total-time
@@ -226,8 +185,9 @@ public:
 		tg->insert( d, v );
 		goal.push_back( tg );
 	}
-
-	void PDDLPrint( std::ostream & stream ) {
+	
+	friend std::ostream& operator<<(std::ostream &os, const Instance& o) { return o.print(os); }
+	virtual std::ostream& print(std::ostream& stream) const {
 		stream << "( DEFINE ( PROBLEM " << name << " )\n";
 		stream << "( :DOMAIN " << d.name << " )\n";
 
@@ -266,23 +226,7 @@ public:
 		}
 
 		stream << ")\n";
-	}
-
-	//Print SHOP problem
-	void SHOPPrint( std::ostream & stream ) {
-		stream << "( DEFPROBLEM PROBLEM " << name << " (\n";
-		for ( unsigned i = 0; i < init.size(); ++i ) {
-			init[i]->PDDLPrint( stream, 1, TokenStruct< std::string >(), d );
-			stream << "\n";
-		}
-		stream << ")\n(\n";
-
-		for ( unsigned i = 0; i < tgoal.size(); ++i ) {
-			tgoal[i]->SHOPPrint( stream, 1, TokenStruct< std::string >(), d );
-			stream << "\n";
-		}
-
-		stream << ") ) )\n";
+		return stream;
 	}
 
 };

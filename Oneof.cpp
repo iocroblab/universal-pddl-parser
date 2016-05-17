@@ -1,7 +1,7 @@
 
 #include "Domain.h"
 
-void Oneof::PDDLPrint( std::ostream & s, unsigned indent, const TokenStruct< std::string > & ts, Domain & d ) {
+void Oneof::PDDLPrint( std::ostream & s, unsigned indent, const TokenStruct< std::string > & ts, const Domain & d ) const {
 	tabindent( s, indent );
 	s << "( ONEOF\n";
 	for ( unsigned i = 0; i < conds.size(); ++i ) {

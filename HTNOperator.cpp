@@ -1,7 +1,7 @@
  
 #include "Domain.h"
 
-void HTNOperator::SHOPPrint( std::ostream & s, unsigned indent, const TokenStruct< std::string > & ts, Domain & d ) {
+void HTNOperator::SHOPPrint( std::ostream & s, unsigned indent, const TokenStruct< std::string > & ts, const Domain & d ) const {
 	s << "( :OPERATOR (" << name << " ";
 	
     //params

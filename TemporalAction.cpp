@@ -1,7 +1,7 @@
 
 #include "Instance.h"
 
-void FunctionExpression::PDDLPrint( std::ostream & s, const TokenStruct< std::string > & ts, Domain & d ) {
+void FunctionExpression::PDDLPrint( std::ostream & s, const TokenStruct< std::string > & ts, const Domain & d ) const {
 	ParamCond * c = d.funcs[d.funcs.index( fun->name )];
 
 	s << "( " << fun->name;
@@ -67,8 +67,8 @@ Expression * TemporalAction::parseDuration( Filereader & f, TokenStruct< std::st
 	}
 }
 
-void TemporalAction::printCondition( std::ostream & s, const TokenStruct< std::string > & ts, Domain & d,
-                                     const std::string & t, And * a ) {
+void TemporalAction::printCondition( std::ostream & s, const TokenStruct< std::string > & ts, const Domain & d,
+                                     const std::string & t, And * a ) const {
 	for ( unsigned i = 0; a && i < a->conds.size(); ++i ) {
 		s << "\t\t( " << t << " ";
 		a->conds[i]->PDDLPrint( s, 0, ts, d );
@@ -76,7 +76,7 @@ void TemporalAction::printCondition( std::ostream & s, const TokenStruct< std::s
 	}
 }
 
-void TemporalAction::PDDLPrint( std::ostream & s, unsigned indent, const TokenStruct< std::string > & ts, Domain & d ) {
+void TemporalAction::PDDLPrint( std::ostream & s, unsigned indent, const TokenStruct< std::string > & ts, const Domain & d ) const {
 	s << "( :DURATIVE-ACTION " << name << "\n";
 
 	s << "  :PARAMETERS ";

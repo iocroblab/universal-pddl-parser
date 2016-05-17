@@ -2,7 +2,7 @@
 #include "Domain.h"
 
 template <>
-void GroundFunc<double>::PDDLPrint( std::ostream & s, unsigned indent, const TokenStruct< std::string > & ts, Domain & d ) {
+void GroundFunc<double>::PDDLPrint( std::ostream & s, unsigned indent, const TokenStruct< std::string > & ts, const Domain & d ) const {
 	tabindent( s, indent );
 	s << "( = ";
 	TypeGround::PDDLPrint( s, 0, ts, d );
@@ -10,7 +10,7 @@ void GroundFunc<double>::PDDLPrint( std::ostream & s, unsigned indent, const Tok
 }
 
 template <>
-void GroundFunc<int>::PDDLPrint( std::ostream & s, unsigned indent, const TokenStruct< std::string > & ts, Domain & d ) {
+void GroundFunc<int>::PDDLPrint( std::ostream & s, unsigned indent, const TokenStruct< std::string > & ts, const Domain & d ) const {
 	tabindent( s, indent );
 	s << "( = ";
 	TypeGround::PDDLPrint( s, 0, ts, d );

@@ -36,28 +36,21 @@ env.AppendUnique(
 	CXXFLAGS=[
 		"-Wall",
 		"-pedantic",
+		"-std=c++11",
 		"-g",
 		"-Wno-long-long",
 	]
 )
 
-domain = env.Program( "Domain",
-	sources + ["./Domain.cpp"]
-)
+domain = env.Program( "Domain", sources + ["./Domain.cpp"])
 
-TPSHE = env.Program( "examples/compileSHE",
-	sources + ["examples/compileSHE.cpp"]
-)
+TPSHE = env.Program( "examples/compileSHE", sources + ["examples/compileSHE.cpp"])
 
-serialize = env.Program( "examples/serialize",
-	sources + ["examples/serialize.cpp"]
-)
+serialize = env.Program( "examples/serialize", sources + ["examples/serialize.cpp"])
 
-alltests = env.Program( "AllTests",
-	sources + ["testenv/TestsRunner.cpp"]
-)
+alltests = env.Program( "AllTests", sources + ["testenv/TestsRunner.cpp"])
 
-runtest = env.Command( "AllTests.passed", alltests, "valgrind -q --leak-check=yes ./AllTests" )
+runtest = env.Command( "AllTests.passed", alltests, 'valgrind -q --leak-check=yes --log-file="valgrind.txt" ./AllTests' )
 
 env.Default( domain )
 env.AlwaysBuild( domain )

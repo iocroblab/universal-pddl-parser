@@ -1,7 +1,7 @@
 
 #include "Domain.h"
 
-void Or::PDDLPrint( std::ostream & s, unsigned indent, const TokenStruct< std::string > & ts, Domain & d ) {
+void Or::PDDLPrint( std::ostream & s, unsigned indent, const TokenStruct< std::string > & ts, const Domain & d ) const {
 	tabindent( s, indent );
 	s << "( OR\n";
 	if ( first ) first->PDDLPrint( s, indent + 1, ts, d );

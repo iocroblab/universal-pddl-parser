@@ -1,5 +1,10 @@
+
+#include <fstream>
+#include <sstream>
+
 #include <MiniCppUnit.h>
 #include "Instance.h"
+#include "shop_instance.h"
 
 class DomainTests : public TestFixture< DomainTests >
 {
@@ -15,15 +20,14 @@ public:
 	}
 
 	template < typename T >
-	void checkEqual( T & prob, const std::string & file, bool shop = false ) {
+	void checkEqual( T & prob, const std::string & file ) {
 		std::ifstream f( file.c_str() );
 		std::string s, t;
 		for ( std::getline( f, s ); !f.eof(); std::getline( f, s ) )
 			t += s + "\n";
 
-		std::stringstream ds;
-		if(shop) prob.SHOPPrint( ds );
-		else prob.PDDLPrint( ds );
+		std::ostringstream ds;
+		ds << prob;
 		ASSERT_EQUALS( t, ds.str() );
 		std::ofstream of("ins.txt");
 		of<<ds.str();
@@ -70,11 +74,11 @@ public:
 	}
 
 	void shopTest() {
-		Domain dom( "domains/Shop_dom" , true );
-		Instance ins( dom, "domains/Shop_ins" , true );
+		parser::shop::ShopDomain dom( "domains/Shop_dom"  );
+		parser::shop::ShopInstance ins( dom, "domains/Shop_ins" );
 
-		checkEqual( dom, "tests/Shop_dom", true );
-		checkEqual( ins, "tests/Shop_ins", true );
+		checkEqual( dom, "tests/Shop_dom" );
+		checkEqual( ins, "tests/Shop_ins" );
 	}
 };
 

@@ -2,6 +2,8 @@
 #ifndef _FUNCTION_H_
 #define _FUNCTION_H_
 
+#include "Lifted.h"
+
 class Function : public Lifted {
 
 public:
@@ -17,7 +19,7 @@ public:
 	Function( const ParamCond * c )
 		: Lifted( c ), returnType( -1 ) {}
 
-	void PDDLPrint( std::ostream & s, unsigned indent, const TokenStruct< std::string > & ts, Domain & d );
+	void PDDLPrint( std::ostream & s, unsigned indent, const TokenStruct< std::string > & ts, const Domain & d ) const override;
 
 	void parse( Filereader & f, TokenStruct< std::string > & ts, Domain & d );
 	

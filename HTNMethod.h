@@ -16,7 +16,7 @@ public:
 		if ( eff ) s << "Eff: " << eff;
 	}
 
-	void SHOPPrint( std::ostream & s, unsigned indent, const TokenStruct< std::string > & ts, Domain & d );
+	void SHOPPrint( std::ostream & s, unsigned indent, const TokenStruct< std::string > & ts, const Domain & d ) const;
 
 	void SHOPparse( Filereader & f, TokenStruct< std::string > & ts, Domain & d );
 

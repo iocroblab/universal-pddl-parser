@@ -1,7 +1,7 @@
 
 #include "Domain.h"
 
-void NetworkNode::PDDLPrint( std::ostream & s, unsigned indent, const TokenStruct< std::string > & ts, Domain & d ) {
+void NetworkNode::PDDLPrint( std::ostream & s, unsigned indent, const TokenStruct< std::string > & ts, const Domain & d ) const {
 	s << "( :CONCURRENCY-CONSTRAINT " << name << "\n";
 
 	s << "  :PARAMETERS ";

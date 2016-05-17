@@ -6,7 +6,7 @@ Increase::Increase( const Increase * i, Domain & d )
 	if ( i->ground ) ground = new Ground( d.funcs.get( i->ground->name ) );
 }
 
-void Increase::PDDLPrint( std::ostream & s, unsigned indent, const TokenStruct< std::string > & ts, Domain & d ) {
+void Increase::PDDLPrint( std::ostream & s, unsigned indent, const TokenStruct< std::string > & ts, const Domain & d ) const {
 	tabindent( s, indent );
 	s << "( INCREASE ( TOTAL-COST ) ";
 	if ( ground ) ground->PDDLPrint( s, 0, ts, d );

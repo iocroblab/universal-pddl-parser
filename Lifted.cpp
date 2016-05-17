@@ -1,7 +1,7 @@
 
 #include "Domain.h"
 
-void Lifted::PDDLPrint( std::ostream & s, unsigned indent, const TokenStruct< std::string > & ts, Domain & d ) {
+void Lifted::PDDLPrint( std::ostream & s, unsigned indent, const TokenStruct< std::string > & ts, const Domain & d ) const {
 	tabindent( s, indent );
 	s << "( " << name;
 	for ( unsigned i = 0; i < params.size(); ++i ) {

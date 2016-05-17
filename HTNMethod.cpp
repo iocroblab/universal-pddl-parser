@@ -1,7 +1,7 @@
  
 #include "Domain.h"
 
-void HTNMethod::SHOPPrint( std::ostream & s, unsigned indent, const TokenStruct< std::string > & ts, Domain & d ) {
+void HTNMethod::SHOPPrint( std::ostream & s, unsigned indent, const TokenStruct< std::string > & ts, const Domain & d ) const {
 	s << "( :METHOD (" << name << " ";
 
     //params

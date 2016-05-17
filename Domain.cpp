@@ -8,10 +8,9 @@ int main( int argc, char *argv[] ) {
 	}
 
 	// Read multiagent domain and instance
+	Domain domain( argv[1] );
+	Instance instance( domain, argv[2] );
 
-	Domain d( argv[1] );
-	Instance ins( d, argv[2] );
-
-	d.PDDLPrint( std::cout );
-	ins.PDDLPrint( std::cerr );
+	std::cout << domain << std::endl;
+	std::cout << instance << std::endl;
 }

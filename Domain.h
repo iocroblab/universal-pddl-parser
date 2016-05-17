@@ -40,15 +40,13 @@ public:
 	bool strips, adl, condeffects;      // whether domain is STRIPS, ADL and/or has conditional effects
 	bool typed, cons, costs;            // whether domain is typed, has constants, has costs
 	bool temp, nondet, neg;             // whether domain is temporal, is non-deterministic, has negative precons
-	bool multiagent, unfact, fact, net, shop; // whether domain is multiagent and unfactored/factored/networked, shop
+	bool multiagent, unfact, fact, net; // whether domain is multiagent and unfactored/factored/networked
 
 	TokenStruct< Type * > types;        // types
 	TokenStruct< Lifted * > preds;      // predicates
 	TokenStruct< Function * > funcs;    // functions
 	TokenStruct< Action * > actions;    // actions
-	TokenStruct< HTNMethod * > htnMtds;// shop methods
 	TokenStruct< Derived * > derived;   // derived predicates
-	TokenStruct< HTNOperator * > htnOps;// shop operators
 	TokenStruct< Task * > tasks;		// tasks
 
 	TokenStruct< NetworkNode * > nodes; // nodes of concurrency network
@@ -58,23 +56,17 @@ public:
 	Domain()
 		: equality( false ), strips( false ), adl( false ), condeffects( false )
 		, typed( false ), cons( false ), costs( false ), temp( false ), nondet( false ), neg( false )
-		, multiagent( false ), unfact( false ), fact( false ), net( false ), shop( false ) {
-		types.insert( new Type( "OBJECT" ) );
+		, multiagent( false ), unfact( false ), fact( false ), net( false )
+	{
+		types.insert( new Type( "OBJECT" ) ); // Type 0 is always "OBJECT", whether the domain is typed or not
 	}
 
-	Domain( const std::string & s, bool htn = false )
-		: equality( false ), strips( false ), adl( false ), condeffects( false )
-		, typed( false ), cons( false ), costs( false ), temp( false ), nondet( false ), neg( false )
-		, multiagent( false ), unfact( false ), fact( false ), net( false ), shop( htn ) {
-
-		// Type 0 is always "OBJECT", whether the domain is typed or not
-		types.insert( new Type( "OBJECT" ) );
-
-		if(shop) parseSHOP( s );
-		else     parse( s );
+	Domain( const std::string & s ) : Domain()
+	{
+		parse( s );
 	}
 
-	~Domain() {
+	virtual ~Domain() {
 		for ( unsigned i = 0; i < types.size(); ++i )
 			delete types[i];
 		for ( unsigned i = 0; i < preds.size(); ++i )
@@ -89,13 +81,9 @@ public:
 			delete nodes[i];
 		for ( unsigned i = 0; i < tasks.size(); ++i )
 		 	delete tasks[i];
-		for ( unsigned i = 0; i < htnMtds.size(); ++i )
-			delete htnMtds[i];
-		for ( unsigned i = 0; i < htnOps.size(); ++i )
-			delete htnOps[i];
 	}
 
-	void parse( const std::string & s ) {
+	virtual void parse( const std::string & s ) {
 		Filereader f( s );
 		name = f.parseName( "DOMAIN" );
 
@@ -123,25 +111,6 @@ public:
 		}
 	}
 
-	void parseSHOP( const std::string & s ) {
-		Filereader f( s );
-
-	    name = f.parseHTNDomainName( );
-
-		if ( DOMAIN_DEBUG ) std::cout << name << "\n";
-
-		for ( ; f.getChar() != ')'; f.next() ) {
-			f.assert( "(" );
-			f.assert( ":" );
-			std::string t = f.getToken();
-
-			if ( DOMAIN_DEBUG ) std::cout << t << "\n";
-
-			if ( t == "OPERATOR" ) parseOperator( f );
-		    else if ( t == "METHOD" ) parseMethod( f );
-			else f.tokenExit( t );
-		}
-	}
 
 	void parseReq( Filereader & f ) {
 		for ( f.next(); f.getChar() != ')'; f.next() ) {
@@ -374,27 +343,7 @@ public:
 		f.assert( ")" );
 	}
 
-	void parseOperator( Filereader & f ) {
-		f.next();
-		f.assert( "(" );
-		HTNOperator * o = 0;
-		o = new HTNOperator( f.getToken() );
-		o->SHOPparse( f, types[0]->constants, *this );
 
-		if ( DOMAIN_DEBUG ) std::cout << o << "\n";
-		htnOps.insert( o );
-	}
-
-	void parseMethod( Filereader & f ) {
-		f.next();
-		f.assert( "(" );
-		HTNMethod * o = 0;
-		o = new HTNMethod( f.getToken() );
-		o->SHOPparse( f, types[0]->constants, *this );
-
-		if ( DOMAIN_DEBUG ) std::cout << o << "\n";
-		htnMtds.insert( o );
-	}
 
 	// Return a copy of the type structure, with newly allocated types
 	// This will also copy all constants and objects!
@@ -572,96 +521,82 @@ public:
 	int constantIndex( const std::string & name, const std::string & type ) {
 		return types.get( type )->parseConstant( name ).second;
 	}
-
-	// Print the domain in PDDL format
-	void PDDLPrint( std::ostream & stream ) {
-		stream << "( DEFINE ( DOMAIN " << name << " )\n";
-		stream << "( :REQUIREMENTS";
-		if ( equality ) stream << " :EQUALITY";
-		if ( strips ) stream << " :STRIPS";
-		if ( costs ) stream << " :ACTION-COSTS";
-		if ( adl ) stream << " :ADL";
-		if ( neg ) stream << " :NEGATIVE-PRECONDITIONS";
-		if ( condeffects ) stream << " :CONDITIONAL-EFFECTS";
-		if ( typed ) stream << " :TYPING";
-		if ( temp ) stream << " :DURATIVE-ACTIONS";
-		if ( nondet ) stream << " :NON-DETERMINISTIC";
-		if ( multiagent ) stream << " :MULTI-AGENT";
-		if ( unfact ) stream << " :UNFACTORED-PRIVACY";
-		if ( fact ) stream << " :FACTORED-PRIVACY";
-		if ( net ) stream << " :CONCURRENCY-NETWORK";
-		stream << " )\n";
+	
+	//! Prints a PDDL representation of the object to the given stream.
+	friend std::ostream& operator<<(std::ostream &os, const Domain& o) { return o.print(os); }
+	virtual std::ostream& print(std::ostream& os) const {
+		os << "( DEFINE ( DOMAIN " << name << " )\n";
+		os << "( :REQUIREMENTS";
+		if ( equality ) os << " :EQUALITY";
+		if ( strips ) os << " :STRIPS";
+		if ( costs ) os << " :ACTION-COSTS";
+		if ( adl ) os << " :ADL";
+		if ( neg ) os << " :NEGATIVE-PRECONDITIONS";
+		if ( condeffects ) os << " :CONDITIONAL-EFFECTS";
+		if ( typed ) os << " :TYPING";
+		if ( temp ) os << " :DURATIVE-ACTIONS";
+		if ( nondet ) os << " :NON-DETERMINISTIC";
+		if ( multiagent ) os << " :MULTI-AGENT";
+		if ( unfact ) os << " :UNFACTORED-PRIVACY";
+		if ( fact ) os << " :FACTORED-PRIVACY";
+		if ( net ) os << " :CONCURRENCY-NETWORK";
+		os << " )\n";
 
 		if ( typed ) {
-			stream << "( :TYPES\n";
+			os << "( :TYPES\n";
 			for ( unsigned i = 1; i < types.size(); ++i )
-				types[i]->PDDLPrint( stream );
-			stream << ")\n";
+				types[i]->PDDLPrint( os );
+			os << ")\n";
 		}
 
 		if ( cons ) {
-			stream << "( :CONSTANTS\n";
+			os << "( :CONSTANTS\n";
 			for ( unsigned i = 0; i < types.size(); ++i )
 				if ( types[i]->constants.size() ) {
-					stream << "\t";
+					os << "\t";
 					for ( unsigned j = 0; j < types[i]->constants.size(); ++j )
-						stream << types[i]->constants[j] << " ";
+						os << types[i]->constants[j] << " ";
 					if ( typed )
-						stream << "- " << types[i]->name;
-					stream << "\n";
+						os << "- " << types[i]->name;
+					os << "\n";
 				}
-			stream << ")\n";
+			os << ")\n";
 		}
 
-		stream << "( :PREDICATES\n";
+		os << "( :PREDICATES\n";
 		for ( unsigned i = 0; i < preds.size(); ++i ) {
-			preds[i]->PDDLPrint( stream, 1, TokenStruct< std::string >(), *this );
-			stream << "\n";
+			preds[i]->PDDLPrint( os, 1, TokenStruct< std::string >(), *this );
+			os << "\n";
 		}
-		stream << ")\n";
+		os << ")\n";
 
 		if ( funcs.size() ) {
-			stream << "( :FUNCTIONS\n";
+			os << "( :FUNCTIONS\n";
 			for ( unsigned i = 0; i < funcs.size(); ++i ) {
-				funcs[i]->PDDLPrint( stream, 1, TokenStruct< std::string >(), *this );
-				stream << "\n";
+				funcs[i]->PDDLPrint( os, 1, TokenStruct< std::string >(), *this );
+				os << "\n";
 			}
-			stream << ")\n";
+			os << ")\n";
 		}
 
 		for ( unsigned i = 0; i < actions.size(); ++i )
-			actions[i]->PDDLPrint( stream, 0, TokenStruct< std::string >(), *this );
+			actions[i]->PDDLPrint( os, 0, TokenStruct< std::string >(), *this );
 
 		for ( unsigned i = 0; i < derived.size(); ++i )
-			derived[i]->PDDLPrint( stream, 0, TokenStruct< std::string >(), *this );
+			derived[i]->PDDLPrint( os, 0, TokenStruct< std::string >(), *this );
 
 		for ( unsigned i = 0; i < nodes.size(); ++i )
-			nodes[i]->PDDLPrint( stream, 0, TokenStruct< std::string >(), *this );
+			nodes[i]->PDDLPrint( os, 0, TokenStruct< std::string >(), *this );
 
 		for ( unsigned i = 0; i < edges.size(); ++i ) {
-			stream << "( :POSITIVE-DEPENDENCE ";
-			stream << nodes[edges[i].first]->name << " ";
-			stream << nodes[edges[i].second]->name << " )\n";
+			os << "( :POSITIVE-DEPENDENCE ";
+			os << nodes[edges[i].first]->name << " ";
+			os << nodes[edges[i].second]->name << " )\n";
 		}
 
-		stream << ")\n";
+		os << ")\n";
+		return os;
 	}
-
-	// Print the domain in SHOP format
-	void SHOPPrint( std::ostream & stream ) {
-		stream << "( DEFDOMAIN " << name << " (\n";		
-
-		 for ( unsigned i = 0; i < htnOps.size(); ++i ){
-		 		htnOps[i]->SHOPPrint( stream, 0, TokenStruct< std::string >(), *this );
-		 }
-
-		 for ( unsigned i = 0; i < htnMtds.size(); ++i )
-		 		htnMtds[i]->SHOPPrint( stream, 0, TokenStruct< std::string >(), *this );
-
-		stream << ")\n";
-
-	}
-
 };
 
 #endif

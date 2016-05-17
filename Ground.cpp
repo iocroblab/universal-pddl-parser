@@ -4,7 +4,7 @@
 Ground::Ground( const Ground * g, Domain & d )
 	: ParamCond( g ), lifted( d.preds.get( g->name ) ) {}
 
-void Ground::PDDLPrint( std::ostream & s, unsigned indent, const TokenStruct< std::string > & ts, Domain & d ) {
+void Ground::PDDLPrint( std::ostream & s, unsigned indent, const TokenStruct< std::string > & ts, const Domain & d ) const {
 	tabindent( s, indent );
 	s << "( " << name;
 	for ( unsigned i = 0; i < params.size(); ++i ) {

@@ -6,7 +6,7 @@ Derived::Derived( const Derived * z, Domain & d )
 	if ( z->cond ) cond = z->cond->copy( d );
 }
 
-void Derived::PDDLPrint( std::ostream & s, unsigned indent, const TokenStruct< std::string > & ts, Domain & d ) {
+void Derived::PDDLPrint( std::ostream & s, unsigned indent, const TokenStruct< std::string > & ts, const Domain & d ) const {
 	s << "( :DERIVED ( " << name;
 
 	TokenStruct< std::string > dstruct( ts );

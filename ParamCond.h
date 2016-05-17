@@ -27,11 +27,9 @@ public:
 		stream << name << params << "\n";
 	}
 
-	void printParams( unsigned first, std::ostream & s, TokenStruct< std::string > & ts, Domain & d );
+	void printParams( unsigned first, std::ostream & s, TokenStruct< std::string > & ts, const Domain & d ) const;
 
-	void SHOPparse( Filereader & f, TokenStruct< std::string > & ts, Domain & d ){
-		
-	}
+	void SHOPparse( Filereader & f, TokenStruct< std::string > & ts, Domain & d ) {}
 
 };
 
