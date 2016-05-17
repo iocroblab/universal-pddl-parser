@@ -2,10 +2,28 @@
 #ifndef _FILEREADER_H_
 #define _FILEREADER_H_
 
+#include <fstream>
+#include <stdexcept>
+
 #include "TokenStruct.h"
 #include "Type.h"
 
 class Domain;
+
+class ExpectedToken : public std::runtime_error {
+public:
+	ExpectedToken(const std::string& token) : std::runtime_error(token + " expected") {}
+};
+
+class UnknownToken : public std::runtime_error {
+public:
+	UnknownToken(const std::string& token) : std::runtime_error(token +  " does not name a known token") {}
+};
+
+class UnexpectedEOF : public std::runtime_error {
+public:
+	UnexpectedEOF() : std::runtime_error("Unexpected EOF found") {}
+};
 
 class Filereader {
 
@@ -47,8 +65,7 @@ public:
 	void tokenExit( const std::string & t ) {
 		c -= t.size();
 		printLine();
-		std::cout << t << " does not name a known token\n";
-		exit( 1 );
+		throw UnknownToken(t);
 	}
 
 	// get next non-ignored character
@@ -59,8 +76,7 @@ public:
 			c = 0;
 			if ( f.eof() ) {
 				printLine();
-				std::cout << "Unexpected EOF\n";
-				exit(1);
+				throw UnexpectedEOF();
 			}
 			std::getline( f, s );
 			for ( ; c < s.size() && ignore( s[c] ); ++c );
@@ -93,8 +109,7 @@ public:
 			     ( 97 <= s[c + k] && s[c + k] <= 122 && s[c + k] == t[k] + 32 );
 		if ( b < t.size() ) {
 			printLine();
-			std::cout << t << " expected\n";
-			exit( 1 );
+			throw ExpectedToken(t);
 		}
 		c += t.size();
 		next();
