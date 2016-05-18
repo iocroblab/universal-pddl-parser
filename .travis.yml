@@ -21,6 +21,6 @@ addons:
     - g++-4.8
     - clang
     
-script: scons && scons test
+script: scons && scons tests
 
 sudo: false # route your build to the container-based infrastructure for a faster build
