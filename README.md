@@ -1,5 +1,5 @@
 
-# Universal PDDL Parser
+# Universal PDDL Parser [![Build Status](https://travis-ci.org/aig-upf/universal-pddl-parser.svg?branch=master)](https://travis-ci.org/aig-upf/universal-pddl-parser)
 
 An algorithm for parsing any planning problem in PDDL format.
 
