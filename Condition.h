@@ -1,6 +1,5 @@
 
-#ifndef _CONDITION_H_
-#define _CONDITION_H_
+#pragma once
 
 #include "Basic.h"
 #include "Filereader.h"
@@ -35,5 +34,3 @@ typedef std::vector< Condition * > CondVec;
 Condition * createCondition( Filereader & f, Domain & d );
 
 Condition * createSHOPCondition( Filereader & f, Domain & d );
-
-#endif

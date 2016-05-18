@@ -1,6 +1,5 @@
 
-#ifndef _LIFTED_H_
-#define _LIFTED_H_
+#pragma once
 
 #include "ParamCond.h"
 
@@ -32,5 +31,3 @@ public:
 };
 
 typedef std::vector< Lifted * > LiftedVec;
-
-#endif

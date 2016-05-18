@@ -1,6 +1,5 @@
 
-#ifndef _ACTION_H_
-#define _ACTION_H_
+#pragma once
 
 #include "Ground.h"
 
@@ -69,5 +68,3 @@ public:
 };
 
 typedef std::vector< Action * > ActionVec;
-
-#endif

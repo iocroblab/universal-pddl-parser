@@ -1,6 +1,5 @@
 
-#ifndef _PARAMCOND_H_
-#define _PARAMCOND_H_
+#pragma once
 
 #include "Condition.h"
 
@@ -34,5 +33,3 @@ public:
 };
 
 typedef std::vector< ParamCond * > ParamCondVec;
-
-#endif

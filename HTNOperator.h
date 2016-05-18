@@ -1,6 +1,5 @@
- 
-#ifndef _HTNOPERATOR_H_
-#define _HTNOPERATOR_H_
+
+#pragma once
 
 #include "Action.h"
 
@@ -27,6 +26,3 @@ public:
 
 	void parseSHOPConditions( Filereader & f, TokenStruct< std::string > & ts, Domain & d );
 };
-
-#endif
-

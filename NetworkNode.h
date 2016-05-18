@@ -1,6 +1,5 @@
 
-#ifndef _NETWORK_NODE_H_
-#define _NETWORK_NODE_H_
+#pragma once
 
 #include "ParamCond.h"
 
@@ -43,5 +42,3 @@ public:
 	}
 	
 };
-
-#endif

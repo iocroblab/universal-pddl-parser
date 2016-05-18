@@ -1,6 +1,5 @@
 
-#ifndef _INSTANCE_H_
-#define _INSTANCE_H_
+#pragma once
 
 #include "Domain.h"
 
@@ -230,5 +229,3 @@ public:
 	}
 
 };
-
-#endif

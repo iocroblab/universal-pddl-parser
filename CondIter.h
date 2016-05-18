@@ -1,6 +1,5 @@
 
-#ifndef _CONDITER_H_
-#define _CONDITER_H_
+#pragma once
 
 #include "Condition.h"
 
@@ -39,5 +38,3 @@ public:
 	}
 
 };
-
-#endif

@@ -1,6 +1,5 @@
 
-#ifndef _GROUNDFUNC_H_
-#define _GROUNDFUNC_H_
+#pragma once
 
 #include "TypeGround.h"
 
@@ -22,5 +21,3 @@ public:
 	void parse( Filereader & f, TokenStruct< std::string > & ts, Domain & d );
 
 };
-
-#endif

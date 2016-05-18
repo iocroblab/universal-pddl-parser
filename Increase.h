@@ -1,6 +1,5 @@
 
-#ifndef _INCREASE_H_
-#define _INCREASE_H_
+#pragma once
 
 #include "Ground.h"
 
@@ -48,5 +47,3 @@ public:
 	}
 
 };
-
-#endif

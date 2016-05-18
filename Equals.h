@@ -1,6 +1,5 @@
 
-#ifndef _EQUALS_H_
-#define _EQUALS_H_
+#pragma once
 
 #include "Ground.h"
 
@@ -23,5 +22,3 @@ public:
 	}
 
 };
-
-#endif

@@ -1,6 +1,5 @@
 
-#ifndef _AND_H_
-#define _AND_H_
+#pragma once
 
 #include "Condition.h"
 
@@ -47,5 +46,3 @@ public:
 	}
 
 };
-
-#endif

@@ -1,6 +1,5 @@
 
-#ifndef _TYPEGROUND_H_
-#define _TYPEGROUND_H_
+#pragma once
 
 #include "Ground.h"
 
@@ -26,5 +25,3 @@ public:
 };
 
 typedef std::vector< TypeGround * > TypeGroundVec;
-
-#endif

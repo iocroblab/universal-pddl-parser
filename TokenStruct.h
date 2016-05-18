@@ -1,6 +1,5 @@
 
-#ifndef _TOKENSTRUCT_H_
-#define _TOKENSTRUCT_H_
+#pragma once
 
 /*
 	T is either a pointer or a string
@@ -77,5 +76,3 @@ public:
 	}
 
 };
-
-#endif

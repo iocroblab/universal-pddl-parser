@@ -1,7 +1,5 @@
 
-
-#ifndef _WHEN_H_
-#define _WHEN_H_
+#pragma once
 
 #include "Condition.h"
 
@@ -49,5 +47,3 @@ public:
 	}
 
 };
-
-#endif

@@ -1,6 +1,5 @@
 
-#ifndef _GROUND_H_
-#define _GROUND_H_
+#pragma once
 
 #include "Lifted.h"
 
@@ -39,5 +38,3 @@ public:
 };
 
 typedef std::vector< Ground * > GroundVec;
-
-#endif

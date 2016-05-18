@@ -1,6 +1,5 @@
-  
-#ifndef _HTNMETHOD_H_
-#define _HTNMETHOD_H_
+
+#pragma once
 
 #include "Action.h"
 
@@ -24,7 +23,3 @@ public:
 
 	void parseTaskList( Filereader & f, TokenStruct< std::string > & ts, Domain & d );
 };
-
-#endif
-
-

@@ -1,6 +1,5 @@
 
-#ifndef _TEMPORALACTION_H_
-#define _TEMPORALACTION_H_
+#pragma once
 
 #include "Action.h"
 #include "And.h"
@@ -182,5 +181,3 @@ public:
 	void parse( Filereader & f, TokenStruct< std::string > & ts, Domain & d );
 
 };
-
-#endif

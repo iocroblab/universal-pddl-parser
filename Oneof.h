@@ -1,6 +1,5 @@
 
-#ifndef _ONEOF_H_
-#define _ONEOF_H_
+#pragma once
 
 #include "Condition.h"
 
@@ -49,5 +48,3 @@ public:
 	}
 
 };
-
-#endif

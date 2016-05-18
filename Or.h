@@ -1,6 +1,5 @@
 
-#ifndef _OR_H_
-#define _OR_H_
+#pragma once
 
 #include "Condition.h"
 
@@ -46,5 +45,3 @@ public:
 	}
 
 };
-
-#endif

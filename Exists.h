@@ -1,6 +1,5 @@
 
-#ifndef _EXISTS_H_
-#define _EXISTS_H_
+#pragma once
 
 #include "ParamCond.h"
 
@@ -40,5 +39,3 @@ public:
 	}
 
 };
-
-#endif

@@ -1,6 +1,5 @@
 
-#ifndef _EITHERTYPE_H_
-#define _EITHERTYPE_H_
+#pragma once
 
 #include "Type.h"
 
@@ -28,5 +27,3 @@ public:
 	}
 
 };
-
-#endif

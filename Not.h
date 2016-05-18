@@ -1,6 +1,5 @@
 
-#ifndef _NOT_H_
-#define _NOT_H_
+#pragma once
 
 #include "Ground.h"
 
@@ -45,5 +44,3 @@ public:
 	}
 
 };
-
-#endif

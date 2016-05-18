@@ -1,6 +1,5 @@
 
-#ifndef _FORALL_H_
-#define _FORALL_H_
+#pragma once
 
 #include "ParamCond.h"
 
@@ -45,5 +44,3 @@ public:
 	}
 
 };
-
-#endif

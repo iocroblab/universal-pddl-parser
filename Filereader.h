@@ -1,6 +1,5 @@
 
-#ifndef _FILEREADER_H_
-#define _FILEREADER_H_
+#pragma once
 
 #include <fstream>
 #include <stdexcept>
@@ -201,5 +200,3 @@ public:
 	}
 
 };
-
-#endif

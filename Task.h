@@ -1,5 +1,5 @@
-#ifndef _TASK_H_
-#define _TASK_H_
+
+#pragma once
 
 #include "ParamCond.h"
 
@@ -35,5 +35,3 @@ public:
 };
 
 typedef std::vector< Task * > TaskVec;
-
-#endif

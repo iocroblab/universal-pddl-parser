@@ -1,6 +1,5 @@
 
-#ifndef _AGENTACTION_H_
-#define _AGENTACTION_H_
+#pragma once
 
 #include "Action.h"
 
@@ -23,5 +22,3 @@ public:
 
 	void parse( Filereader & f, TokenStruct< std::string > & ts, Domain & d );
 };
-
-#endif

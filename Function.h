@@ -1,6 +1,5 @@
 
-#ifndef _FUNCTION_H_
-#define _FUNCTION_H_
+#pragma once
 
 #include "Lifted.h"
 
@@ -24,5 +23,3 @@ public:
 	void parse( Filereader & f, TokenStruct< std::string > & ts, Domain & d );
 	
 };
-
-#endif

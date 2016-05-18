@@ -1,6 +1,5 @@
 
-#ifndef _BASIC_H_
-#define _BASIC_H_
+#pragma once
 
 #include <algorithm>
 #include <cmath>
@@ -91,5 +90,3 @@ inline void tabindent( std::ostream & stream, unsigned indent ) {
 	for ( unsigned i = 0; i < indent; ++i )
 		stream << "\t";
 }
-
-#endif

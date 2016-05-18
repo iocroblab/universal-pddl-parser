@@ -1,6 +1,5 @@
 
-#ifndef _DOMAIN_H_
-#define _DOMAIN_H_
+#pragma once
 
 #include "AgentAction.h"
 #include "Task.h"
@@ -598,5 +597,3 @@ public:
 		return os;
 	}
 };
-
-#endif

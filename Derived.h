@@ -1,6 +1,5 @@
 
-#ifndef _DERIVED_H_
-#define _DERIVED_H_
+#pragma once
 
 #include "Lifted.h"
 
@@ -39,5 +38,3 @@ public:
 	}
 
 };
-
-#endif

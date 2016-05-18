@@ -1,6 +1,5 @@
 
-#ifndef _TYPE_H_
-#define _TYPE_H_
+#pragma once
 
 #include "TokenStruct.h"
 
@@ -125,5 +124,3 @@ inline std::ostream & operator<<( std::ostream & stream, const Type * t ) {
 	t->print( stream );
 	return stream;
 }
-
-#endif
