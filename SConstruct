@@ -24,7 +24,10 @@ for path in paths :
 		if item not in mains
 	]
 
-env = Environment( tools=["default"] )
+# Read the preferred compiler from the environment
+gcc = os.environ.get('CXX', 'g++')
+
+env = Environment(tools=["default"], CXX=gcc)
 
 def print_cmd_line( commandline, target, source, env ) :
 	sys.stdout.write( "\033[33m%s\033[0m\n"%commandline )
