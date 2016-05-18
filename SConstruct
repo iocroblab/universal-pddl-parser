@@ -51,9 +51,7 @@ TPSHE = env.Program( "examples/compileSHE", sources + ["examples/compileSHE.cpp"
 
 serialize = env.Program( "examples/serialize", sources + ["examples/serialize.cpp"])
 
-alltests = env.Program( "AllTests", sources + ["testenv/TestsRunner.cpp"])
-
-runtest = env.Command( "AllTests.passed", alltests, 'valgrind -q --leak-check=yes --log-file="valgrind.txt" ./AllTests' )
+test = env.Program( "test.bin", sources + ["testenv/TestsRunner.cpp"])
 
 env.Default( domain )
 env.AlwaysBuild( domain )
@@ -64,5 +62,5 @@ env.Alias( 'TPSHE', TPSHE )
 env.Depends( serialize, domain )
 env.Alias( 'serial', serialize )
 
-env.Depends( runtest, domain )
-env.Alias( 'tests', runtest )
+env.Depends( test, domain )
+env.Alias( 'test', test )
