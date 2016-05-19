@@ -2,7 +2,7 @@
 #include <fstream>
 #include <sstream>
 
-#include <tests/MiniCppUnit.h>
+#include "MiniCppUnit.h"
 #include <Instance.h>
 #include <shop_instance.h>
 
