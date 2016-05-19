@@ -14,11 +14,7 @@ def which(program):
 pkgpath = os.environ.get( "PKG_CONFIG_PATH", "" )
 os.environ["PKG_CONFIG_PATH"] = pkgpath
 
-paths = ["./"]
-
-sources = []
-for path in paths :
-	sources += list(glob.glob( path + "*.cpp" ))
+src_path = "./parser"
 
 # Read the preferred compiler from the environment - if none specified, choose CLANG if possible
 #default_compiler = 'clang++' if which("clang++") else 'g++'
@@ -29,7 +25,7 @@ gcc = os.environ.get('CXX', default_compiler)
 base = Environment(tools=["default"], CXX=gcc)
 
 base.AppendUnique(
-	CPPPATH=[os.path.abspath(p) for p in paths],
+	CPPPATH=os.path.abspath(src_path),
 	CXXFLAGS=[
 		"-Wall",
 		"-pedantic",
@@ -37,6 +33,7 @@ base.AppendUnique(
 		"-g"
 	]
 )
+
 
 extra = base.Clone()
 extra.Append(LIBS=[File(os.path.abspath('./lib/libparser.a'))])
@@ -48,9 +45,10 @@ SConscript('examples/serialize/SConscript', exports='extra')
 SConscript('examples/parser/SConscript', exports='extra')
 
 # The compilation of the (static & dynamic) library
-sources = glob.glob( "./*.cpp" )
+build_dirname = 'build'
+base.VariantDir(build_dirname, '.')
 
-build_dirname = '.'
+sources = glob.glob( src_path + "/*.cpp" )
 build_files = [build_dirname + '/' + src for src in sources]
 
 shared_lib = base.SharedLibrary('lib/parser', build_files)
