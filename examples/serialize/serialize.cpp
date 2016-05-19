@@ -299,7 +299,7 @@ int main( int argc, char *argv[] ) {
 	cd->addEff( 0, "FREE", "AFREE" );
 	cd->addEff( 1, "FREE", "ATEMP" );
 
-	cd->PDDLPrint( std::cout );
+	std::cout << cd;
 
 	// Generate single-agent instance
 
@@ -339,7 +339,7 @@ int main( int argc, char *argv[] ) {
 		cins->addGoal( ins->goal[i]->name, d->objectList( ins->goal[i] ) );
 	cins->addGoal( "AFREE" );
 
-	cins->PDDLPrint( std::cerr );
+	std::cerr << cins;
 
 	delete cins;
 	delete cd;

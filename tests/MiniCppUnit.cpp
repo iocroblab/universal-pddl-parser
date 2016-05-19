@@ -18,7 +18,7 @@
  *
  */
 
-#include <MiniCppUnit.h>
+#include "MiniCppUnit.h"
 
 TestsListener& TestsListener::theInstance()
 {

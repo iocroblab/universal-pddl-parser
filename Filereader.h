@@ -33,6 +33,7 @@ public:
 	unsigned r, c;      // current row and column of file
   
 	Filereader( const std::string & file ) : f( file.c_str() ), r( 1 ), c( 0 ) {
+		if (!f) throw std::runtime_error(std::string("Failed to open file '") + file + "'");
 		std::getline( f, s );
 		next();
 	}

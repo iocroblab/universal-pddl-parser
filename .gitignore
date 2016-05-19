@@ -1,6 +1,6 @@
 
+lib
 .sconsign.dblite
 valgrind.txt
-Domain
 ins.txt
 *.bin
