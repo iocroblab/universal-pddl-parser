@@ -7,7 +7,7 @@ before_script:
 
  # Build against both compilers
 compiler:
- - clang
+# - clang
  - gcc
  
 install:
