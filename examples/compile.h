@@ -2,7 +2,9 @@
 #ifndef _COMPILE_H_
 #define _COMPILE_H_
 
-#include "Instance.h"
+#include <parser/Instance.h>
+
+using namespace parser::pddl;
 
 Domain * d;
 Instance * ins;

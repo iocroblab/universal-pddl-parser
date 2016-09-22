@@ -1,7 +1,9 @@
 // To check for memory leaks:
 // valgrind --leak-check=yes bin/compileSHE ../domains/tempo-sat/Mapanalyser/domain/domain.pddl ../domains/tempo-sat/Mapanalyser/problems/pfile3-4-2-0-1.pddl
 
-#include "compile.h"
+#include <iostream>
+
+#include <examples/compile.h>
 
 int main( int argc, char *argv[] ) {
 	if ( argc < 3 ) {
@@ -251,7 +253,7 @@ int main( int argc, char *argv[] ) {
 		cd->addEff( 1, name, stacks[i] + "-CONTINUE", incvec( 2, 3 ) );
 	}
 
-	cd->PDDLPrint( std::cout );
+	std::cout << *cd;
 
 	cins = new Instance( *cd );
 	cins->name = ins->name;
@@ -279,7 +281,7 @@ int main( int argc, char *argv[] ) {
 		cins->addGoal( ins->goal[i]->name, d->objectList( ins->goal[i] ) );
 	cins->addGoal( stacks[0] );
 
-	cins->PDDLPrint( std::cerr );
+	std::cerr << *cins;
 
 	delete cins;
 	delete cd;
