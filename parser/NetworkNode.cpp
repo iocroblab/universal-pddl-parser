@@ -1,6 +1,8 @@
 
 #include "Domain.h"
 
+namespace parser { namespace pddl {
+
 void NetworkNode::PDDLPrint( std::ostream & s, unsigned indent, const TokenStruct< std::string > & ts, const Domain & d ) const {
 	s << "( :CONCURRENCY-CONSTRAINT " << name << "\n";
 
@@ -67,3 +69,5 @@ void NetworkNode::parse( Filereader & f, TokenStruct< std::string > & ts, Domain
 	f.next();
 	f.assert( ")" );
 }
+
+} } // namespaces

@@ -3,13 +3,14 @@
 
 #include "Condition.h"
 
+namespace parser { namespace pddl {
+
 class And : public Condition {
 
 public:
-
 	CondVec conds;
 
-	And() {}
+	And() = default;
 
 	And( const And * a, Domain & d ) {
 		for ( unsigned i = 0; i < a->conds.size(); ++i )
@@ -30,8 +31,6 @@ public:
 
 	void parse( Filereader & f, TokenStruct< std::string > & ts, Domain & d );
 
-	void SHOPparse( Filereader & f, TokenStruct< std::string > & ts, Domain & d );
-
 	void add( Condition * cond ) {
 		conds.push_back( cond );
 	}
@@ -46,3 +45,5 @@ public:
 	}
 
 };
+
+} } // namespaces

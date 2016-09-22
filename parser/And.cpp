@@ -1,5 +1,8 @@
 
 #include "Domain.h"
+#include <parser/And.h>
+
+namespace parser { namespace pddl {
 
 void And::PDDLPrint( std::ostream & s, unsigned indent, const TokenStruct< std::string > & ts, const Domain & d ) const {
 	tabindent( s, indent );
@@ -22,14 +25,4 @@ void And::parse( Filereader & f, TokenStruct< std::string > & ts, Domain & d ) {
 	++f.c;
 }
 
-void And::SHOPparse( Filereader & f, TokenStruct< std::string > & ts, Domain & d ) {
-	TokenStruct< std::string > fstruct;
-	for ( f.next(); f.getChar() != ')'; f.next() ) {
-		f.assert( "(" );
-		Condition * condition = createSHOPCondition( f, d );
-		
-		condition->SHOPparse( f, ts, d );
-		conds.push_back( condition );
-	}
-	++f.c;
-}
+} } // namespaces

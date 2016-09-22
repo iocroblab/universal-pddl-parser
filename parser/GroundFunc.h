@@ -3,6 +3,8 @@
 
 #include "TypeGround.h"
 
+namespace parser { namespace pddl {
+
 template < typename T >
 class GroundFunc : public TypeGround {
 
@@ -21,3 +23,5 @@ public:
 	void parse( Filereader & f, TokenStruct< std::string > & ts, Domain & d );
 
 };
+
+} } // namespaces

@@ -3,6 +3,8 @@
 
 #include "ParamCond.h"
 
+namespace parser { namespace pddl {
+
 class Task : public ParamCond {
 
 public:
@@ -16,17 +18,10 @@ public:
 		: ParamCond( c ) {}
 
     void PDDLPrint( std::ostream & s, unsigned indent, const TokenStruct< std::string > & ts, const Domain & d ) const override {}
-	
-	void SHOPPrint( std::ostream & s, unsigned indent, const TokenStruct< std::string > & ts, const Domain & d ) const;
 
-	void parse( Filereader & f, TokenStruct< std::string > & ts, Domain & d ){
-		
-	}
+	void parse( Filereader & f, TokenStruct< std::string > & ts, Domain & d ) {}
 
-	void SHOPparse( Filereader & f, TokenStruct< std::string > & ts, Domain & d );
-
-	void addParams( int m, unsigned n ) {
-	}
+	void addParams( int m, unsigned n ) {}
 
 	Condition * copy( Domain & d ) {
 		return new Task( this );
@@ -35,3 +30,5 @@ public:
 };
 
 typedef std::vector< Task * > TaskVec;
+
+} } // namespaces

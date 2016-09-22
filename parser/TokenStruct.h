@@ -6,6 +6,8 @@
 	A token structure stores pointers but does not delete them!
 */
 
+namespace parser { namespace pddl {
+
 typedef std::map< std::string, unsigned > TokenMap;
 
 template <typename T>
@@ -76,3 +78,5 @@ public:
 	}
 
 };
+
+} } // namespaces

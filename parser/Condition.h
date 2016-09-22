@@ -5,6 +5,8 @@
 #include "Filereader.h"
 #include "Type.h"
 
+namespace parser { namespace pddl {
+
 class Condition {
 
 public:
@@ -16,8 +18,6 @@ public:
 	virtual void PDDLPrint( std::ostream & s, unsigned indent, const TokenStruct< std::string > & ts, const Domain & d ) const = 0;
 
 	virtual void parse( Filereader & f, TokenStruct< std::string > & ts, Domain & d ) = 0;
-
-	virtual void SHOPparse( Filereader & f, TokenStruct< std::string > & ts, Domain & d ) = 0;
 
 	virtual void addParams( int m, unsigned n ) = 0;
 
@@ -33,4 +33,4 @@ typedef std::vector< Condition * > CondVec;
 
 Condition * createCondition( Filereader & f, Domain & d );
 
-Condition * createSHOPCondition( Filereader & f, Domain & d );
+} } // namespaces

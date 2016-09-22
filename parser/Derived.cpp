@@ -1,6 +1,8 @@
 
 #include "Domain.h"
 
+namespace parser { namespace pddl {
+
 Derived::Derived( const Derived * z, Domain & d )
 	: Lifted( z ), cond( 0 ), lifted( d.preds.get( z->name ) ) {
 	if ( z->cond ) cond = z->cond->copy( d );
@@ -40,3 +42,5 @@ void Derived::parse( Filereader & f, TokenStruct< std::string > & ts, Domain & d
 	f.next();
 	f.assert( ")" );
 }
+
+} } // namespaces

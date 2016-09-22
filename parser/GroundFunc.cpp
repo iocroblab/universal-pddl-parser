@@ -1,6 +1,8 @@
 
 #include "Domain.h"
 
+namespace parser { namespace pddl {
+
 template <>
 void GroundFunc<double>::PDDLPrint( std::ostream & s, unsigned indent, const TokenStruct< std::string > & ts, const Domain & d ) const {
 	tabindent( s, indent );
@@ -47,3 +49,5 @@ void GroundFunc<int>::parse( Filereader & f, TokenStruct< std::string > & ts, Do
 	f.next();
 	f.assert( ")" );
 }
+
+} } // namespaces

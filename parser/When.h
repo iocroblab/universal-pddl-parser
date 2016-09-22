@@ -3,6 +3,8 @@
 
 #include "Condition.h"
 
+namespace parser { namespace pddl {
+
 class When : public Condition {
 
 public:
@@ -33,10 +35,6 @@ public:
 
 	void parse( Filereader & f, TokenStruct< std::string > & ts, Domain & d );
 
-	void SHOPparse( Filereader & f, TokenStruct< std::string > & ts, Domain & d ){
-		
-	}
-
 	void addParams( int m, unsigned n ) {
 		pars->addParams( m, n );
 		cond->addParams( m, n );
@@ -47,3 +45,5 @@ public:
 	}
 
 };
+
+} } // namespaces

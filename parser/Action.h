@@ -3,6 +3,8 @@
 
 #include "Ground.h"
 
+namespace parser { namespace pddl {
+
 class Action : public ParamCond {
 
 public:
@@ -42,12 +44,7 @@ public:
 
 	void parse( Filereader & f, TokenStruct< std::string > & ts, Domain & d );
 
-	void SHOPparse( Filereader & f, TokenStruct< std::string > & ts, Domain & d ){
-		
-	}
-
-	void addParams( int m, unsigned n ) {
-	}
+	void addParams( int m, unsigned n ) {}
 
 	void addParams( const IntVec & v ) {
 		if ( pre ) pre->addParams( params.size(), v.size() );
@@ -68,3 +65,5 @@ public:
 };
 
 typedef std::vector< Action * > ActionVec;
+
+} } // namespaces

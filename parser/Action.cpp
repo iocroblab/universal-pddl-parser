@@ -1,6 +1,8 @@
 
 #include "Domain.h"
 
+namespace parser { namespace pddl {
+
 void Action::PDDLPrint( std::ostream & s, unsigned indent, const TokenStruct< std::string > & ts, const Domain & d ) const {
 	s << "( :ACTION " << name << "\n";
 
@@ -100,3 +102,5 @@ GroundVec Action::deleteEffects() {
 
 	return deletes;
 }
+
+} } // namespaces

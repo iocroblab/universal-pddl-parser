@@ -1,6 +1,8 @@
 
 #include "Instance.h"
 
+namespace parser { namespace pddl {
+
 void FunctionExpression::PDDLPrint( std::ostream & s, const TokenStruct< std::string > & ts, const Domain & d ) const {
 	ParamCond * c = d.funcs[d.funcs.index( fun->name )];
 
@@ -230,3 +232,5 @@ void TemporalAction::parse( Filereader & f, TokenStruct< std::string > & ts, Dom
 	f.next();
 	f.assert( ")" );
 }
+
+} } // namespaces

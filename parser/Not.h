@@ -3,6 +3,8 @@
 
 #include "Ground.h"
 
+namespace parser { namespace pddl {
+
 class Not : public Condition {
 
 public:
@@ -33,8 +35,6 @@ public:
 
 	void parse( Filereader & f, TokenStruct< std::string > & ts, Domain & d );
 
-	void SHOPparse( Filereader & f, TokenStruct< std::string > & ts, Domain & d );
-
 	void addParams( int m, unsigned n ) {
 		cond->addParams( m, n );
 	}
@@ -44,3 +44,5 @@ public:
 	}
 
 };
+
+} } // namespaces

@@ -3,8 +3,9 @@
 #include <sstream>
 
 #include "MiniCppUnit.h"
-#include <Instance.h>
-#include <shop_instance.h>
+#include <parser/Instance.h>
+
+using namespace parser::pddl;
 
 class DomainTests : public TestFixture< DomainTests >
 {
@@ -16,7 +17,6 @@ public:
 		TEST_CASE( elevatorTest );
 		TEST_CASE( temporalTest );
 		TEST_CASE( multiagentTest );
-		TEST_CASE( shopTest );
 	}
 
 	template < typename T >
@@ -74,14 +74,6 @@ public:
 
 		checkEqual( dom, "tests/expected/Multilog_dom.pddl" );
 		checkEqual( ins, "tests/expected/Multilog_ins.pddl" );
-	}
-
-	void shopTest() {
-		parser::shop::ShopDomain dom( "domains/Shop_dom"  );
-		parser::shop::ShopInstance ins( dom, "domains/Shop_ins" );
-
-		checkEqual( dom, "tests/expected/Shop_dom" );
-		checkEqual( ins, "tests/expected/Shop_ins" );
 	}
 };
 

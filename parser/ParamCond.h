@@ -2,11 +2,17 @@
 #pragma once
 
 #include "Condition.h"
+#include "Basic.h"
+
+namespace parser { namespace pddl {
+
+
+// This is necessary for ADL
+using ::operator<<;
 
 class ParamCond : public Condition {
 
 public:
-
 	std::string name;
 	IntVec params;
 
@@ -27,9 +33,8 @@ public:
 	}
 
 	void printParams( unsigned first, std::ostream & s, TokenStruct< std::string > & ts, const Domain & d ) const;
-
-	void SHOPparse( Filereader & f, TokenStruct< std::string > & ts, Domain & d ) {}
-
 };
 
 typedef std::vector< ParamCond * > ParamCondVec;
+
+} } // namespaces

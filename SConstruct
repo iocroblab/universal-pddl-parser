@@ -24,8 +24,10 @@ gcc = os.environ.get('CXX', default_compiler)
 
 base = Environment(tools=["default"], CXX=gcc)
 
+include_paths = ['.']
+
 base.AppendUnique(
-	CPPPATH=os.path.abspath(src_path),
+	CPPPATH = [ os.path.abspath(p) for p in include_paths ],
 	CXXFLAGS=[
 		"-Wall",
 		"-pedantic",

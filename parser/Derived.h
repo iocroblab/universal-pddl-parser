@@ -3,6 +3,8 @@
 
 #include "Lifted.h"
 
+namespace parser { namespace pddl {
+
 class Derived : public Lifted {
 
 public:
@@ -38,3 +40,5 @@ public:
 	}
 
 };
+
+} } // namespaces

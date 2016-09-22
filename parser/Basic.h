@@ -86,6 +86,7 @@ std::ostream & operator<<( std::ostream & stream, const std::vector< T > &v ) {
 	return insertAll( stream, v.begin(), v.end() );
 }
 
+
 inline void tabindent( std::ostream & stream, unsigned indent ) {
 	for ( unsigned i = 0; i < indent; ++i )
 		stream << "\t";

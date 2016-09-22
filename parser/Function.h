@@ -3,6 +3,8 @@
 
 #include "Lifted.h"
 
+namespace parser { namespace pddl {
+
 class Function : public Lifted {
 
 public:
@@ -23,3 +25,5 @@ public:
 	void parse( Filereader & f, TokenStruct< std::string > & ts, Domain & d );
 	
 };
+
+} } // namespaces

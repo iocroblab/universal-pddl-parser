@@ -4,6 +4,8 @@
 #include "Action.h"
 #include "And.h"
 
+namespace parser { namespace pddl {
+
 class Instance;
 
 class Expression {
@@ -181,3 +183,5 @@ public:
 	void parse( Filereader & f, TokenStruct< std::string > & ts, Domain & d );
 
 };
+
+} } // namespaces

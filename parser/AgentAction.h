@@ -3,6 +3,8 @@
 
 #include "Action.h"
 
+namespace parser { namespace pddl {
+
 class AgentAction : public Action {
 
 public:
@@ -22,3 +24,5 @@ public:
 
 	void parse( Filereader & f, TokenStruct< std::string > & ts, Domain & d );
 };
+
+} } // namespaces

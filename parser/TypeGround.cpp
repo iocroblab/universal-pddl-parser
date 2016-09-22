@@ -1,6 +1,8 @@
 
 #include "Domain.h"
 
+namespace parser { namespace pddl {
+
 void TypeGround::PDDLPrint( std::ostream & s, unsigned indent, const TokenStruct< std::string > & ts, const Domain & d ) const {
 	tabindent( s, indent );
 	s << "( " << name;
@@ -40,3 +42,5 @@ void TypeGround::parse( Filereader & f, TokenStruct< std::string > & ts, Domain 
 	}
 	f.assert( ")" );
 }
+
+} } // namespaces

@@ -1,6 +1,8 @@
 
 #include "Domain.h"
 
+namespace parser { namespace pddl {
+
 void Exists::PDDLPrint( std::ostream & s, unsigned indent, const TokenStruct< std::string > & ts, const Domain & d ) const {
 	tabindent( s, indent );
 	s << "( EXISTS\n";
@@ -41,3 +43,5 @@ void Exists::parse( Filereader & f, TokenStruct< std::string > & ts, Domain & d 
 	f.next();
 	f.assert( ")" );
 }
+
+} } // namespaces

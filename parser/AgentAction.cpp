@@ -1,6 +1,8 @@
 
 #include "Domain.h"
 
+namespace parser { namespace pddl {
+
 void AgentAction::PDDLPrint( std::ostream & s, unsigned indent, const TokenStruct< std::string > & ts, const Domain & d ) const {
 	s << "( :ACTION " << name << "\n";
 
@@ -52,3 +54,5 @@ void AgentAction::parse( Filereader & f, TokenStruct< std::string > & ts, Domain
 
 	parseConditions( f, astruct, d );
 }
+
+} } // namespaces

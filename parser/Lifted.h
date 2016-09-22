@@ -3,6 +3,8 @@
 
 #include "ParamCond.h"
 
+namespace parser { namespace pddl {
+
 class Lifted : public ParamCond {
 
 public:
@@ -19,10 +21,7 @@ public:
 
 	void parse( Filereader & f, TokenStruct< std::string > & ts, Domain & d );
 
-	void SHOPparse( Filereader & f, TokenStruct< std::string > & ts, Domain & d );
-
-	void addParams( int m, unsigned n ) {
-	}
+	void addParams( int m, unsigned n ) {}
 
 	Condition * copy( Domain & d ) {
 		return new Lifted( this );
@@ -31,3 +30,5 @@ public:
 };
 
 typedef std::vector< Lifted * > LiftedVec;
+
+} } // namespaces

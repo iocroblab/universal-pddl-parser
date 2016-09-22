@@ -1,6 +1,8 @@
 
 #include "Domain.h"
 
+namespace parser { namespace pddl {
+
 Ground::Ground( const Ground * g, Domain & d )
 	: ParamCond( g ), lifted( d.preds.get( g->name ) ) {}
 
@@ -31,29 +33,4 @@ void Ground::parse( Filereader & f, TokenStruct< std::string > & ts, Domain & d 
 	f.assert( ")" );
 }
 
-void Ground::SHOPparse( Filereader & f, TokenStruct< std::string > & ts, Domain & d ) {
-	TokenStruct< std::string > lstruct = f.parseTypedList( false );
-
-	int i = d.preds.index( name );
-
-	if( i < 0 ){
-		Lifted * c = new Lifted( name );
-		i = d.preds.insert( c );
-		IntVec v( lstruct.size(), 0 );
-		c->params = v;
-	}
-	
-	this->lifted = d.preds[i];
-
-	params = d.convertTypes( lstruct.types );
-		
-	for ( unsigned i = 0; i < lstruct.size(); ++i ) {
-		std::string s = lstruct[i];
-		int k = ts.index( s );
-		if ( k >= 0 ) params[i] = k;
-		else  { 
-			params[i] = ts.insert(s); 
-		}
-	}
-
-}
+} } // namespaces

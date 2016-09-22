@@ -3,6 +3,8 @@
 
 #include "Ground.h"
 
+namespace parser { namespace pddl {
+
 class TypeGround : public Ground {
 
 public:
@@ -25,3 +27,5 @@ public:
 };
 
 typedef std::vector< TypeGround * > TypeGroundVec;
+
+} } // namespaces

@@ -1,5 +1,9 @@
 
-#include <Instance.h>
+#include <iostream>
+
+#include <parser/Instance.h>
+
+using namespace parser::pddl;
 
 int main( int argc, char *argv[] ) {
 	if ( argc < 3 ) {

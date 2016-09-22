@@ -3,6 +3,8 @@
 
 #include "Ground.h"
 
+namespace parser { namespace pddl {
+
 class Equals : public Ground {
 
 public:
@@ -22,3 +24,5 @@ public:
 	}
 
 };
+
+} } // namespaces

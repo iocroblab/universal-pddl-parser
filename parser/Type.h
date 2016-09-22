@@ -3,6 +3,8 @@
 
 #include "TokenStruct.h"
 
+namespace parser { namespace pddl {
+
 class Type;
 
 typedef std::vector< Type * > TypeVec;
@@ -124,3 +126,5 @@ inline std::ostream & operator<<( std::ostream & stream, const Type * t ) {
 	t->print( stream );
 	return stream;
 }
+
+} } // namespaces

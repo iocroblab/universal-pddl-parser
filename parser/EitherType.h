@@ -3,6 +3,8 @@
 
 #include "Type.h"
 
+namespace parser { namespace pddl {
+
 class EitherType : public Type {
 
 public:
@@ -27,3 +29,5 @@ public:
 	}
 
 };
+
+} } // namespaces

@@ -3,6 +3,8 @@
 
 #include "ParamCond.h"
 
+namespace parser { namespace pddl {
+
 class Exists : public ParamCond {
 
 public:
@@ -39,3 +41,5 @@ public:
 	}
 
 };
+
+} } // namespaces

@@ -1,7 +1,9 @@
 // To check for memory leaks:
 // valgrind --leak-check=yes examples/compileSHE ../temporal/compilingtemporal/domains/tempo-sat/Mapanalyser/domain/domain.pddl ../temporal/compilingtemporal/domains/tempo-sat/Mapanalyser/problems/pfile3-4-2-0-1.pddl
 
-#include "Instance.h"
+#include <parser/Instance.h>
+
+using namespace parser::pddl;
 
 Domain * d;
 Instance * ins;

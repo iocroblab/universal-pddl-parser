@@ -2,8 +2,13 @@
 #pragma once
 
 #include "Ground.h"
+#include <parser/Condition.h>
+#include <parser/Function.h>
+
 
 // RIGHT NOW ONLY INCREASES TOTAL-COST !!!
+
+namespace parser { namespace pddl {
 
 class Increase : public Condition {
 
@@ -35,15 +40,13 @@ public:
 
 	void parse( Filereader & f, TokenStruct< std::string > & ts, Domain & d );
 
-	void SHOPparse( Filereader & f, TokenStruct< std::string > & ts, Domain & d ){
-		
-	}
 
-	void addParams( int m, unsigned n ) {
-	}
+	void addParams( int m, unsigned n ) {}
 
 	Condition * copy( Domain & d ) {
 		return new Increase( this, d );
 	}
 
 };
+
+} } // namespaces

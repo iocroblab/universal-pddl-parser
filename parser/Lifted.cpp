@@ -1,6 +1,8 @@
 
 #include "Domain.h"
 
+namespace parser { namespace pddl {
+
 void Lifted::PDDLPrint( std::ostream & s, unsigned indent, const TokenStruct< std::string > & ts, const Domain & d ) const {
 	tabindent( s, indent );
 	s << "( " << name;
@@ -17,7 +19,5 @@ void Lifted::parse( Filereader & f, TokenStruct< std::string > & ts, Domain & d 
 	params = d.convertTypes( lstruct.types );
 }
 
-void Lifted::SHOPparse( Filereader & f, TokenStruct< std::string > & ts, Domain & d ) {
-	TokenStruct< std::string > lstruct = f.parseTypedList( false );
-	params = d.convertTypes( lstruct.types );
-}
+
+} } // namespaces

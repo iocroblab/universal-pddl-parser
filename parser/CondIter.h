@@ -3,6 +3,8 @@
 
 #include "Condition.h"
 
+namespace parser { namespace pddl {
+
 typedef std::list< std::pair< Condition *, unsigned > > CondList;
 
 class CondIter : public std::iterator< std::input_iterator_tag, Condition * > {
@@ -38,3 +40,5 @@ public:
 	}
 
 };
+
+} } // namespaces

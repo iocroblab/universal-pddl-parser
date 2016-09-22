@@ -1,7 +1,9 @@
 // To check for memory leaks:
 // valgrind --leak-check=yes examples/serialize ../multiagent/codmap/domains/tablemover/tablemover.pddl ../multiagent/codmap/domains/tablemover/table1_1.pddl
 
-#include "Instance.h"
+#include <parser/Instance.h>
+
+using namespace parser::pddl;
 
 Domain * d;
 Instance * ins;

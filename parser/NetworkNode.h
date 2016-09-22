@@ -3,6 +3,8 @@
 
 #include "ParamCond.h"
 
+namespace parser { namespace pddl {
+
 class NetworkNode : public ParamCond {
 public:
 	unsigned lower, upper;
@@ -42,3 +44,5 @@ public:
 	}
 	
 };
+
+} } // namespaces

@@ -3,6 +3,8 @@
 
 #include "Domain.h"
 
+namespace parser { namespace pddl {
+
 class Instance {
 public:
 	Domain &d;
@@ -233,3 +235,5 @@ public:
 	}
 
 };
+
+} } // namespaces

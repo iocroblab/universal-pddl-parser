@@ -3,8 +3,6 @@
 
 #include "AgentAction.h"
 #include "Task.h"
-#include "HTNMethod.h"
-#include "HTNOperator.h"
 #include "TemporalAction.h"
 #include "And.h"
 #include "Derived.h"
@@ -22,6 +20,8 @@
 #include "When.h"
 
 #define DOMAIN_DEBUG false
+
+namespace parser { namespace pddl {
 
 // union-find: return the root in the tree that n belongs to
 inline unsigned uf( UnsignedVec & mf, unsigned n ) {
@@ -597,3 +597,5 @@ public:
 		return os;
 	}
 };
+
+} } // namespaces

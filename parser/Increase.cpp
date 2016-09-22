@@ -1,6 +1,8 @@
 
 #include "Domain.h"
 
+namespace parser { namespace pddl {
+
 Increase::Increase( const Increase * i, Domain & d )
 	: value( i->value ), ground( 0 ) {
 	if ( i->ground ) ground = new Ground( d.funcs.get( i->ground->name ) );
@@ -31,3 +33,5 @@ void Increase::parse( Filereader & f, TokenStruct< std::string > & ts, Domain & 
 	f.next();
 	f.assert( ")" );
 }
+
+} } // namespaces

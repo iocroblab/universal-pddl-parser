@@ -1,6 +1,8 @@
 
 #include "Domain.h"
 
+namespace parser { namespace pddl {
+
 void Or::PDDLPrint( std::ostream & s, unsigned indent, const TokenStruct< std::string > & ts, const Domain & d ) const {
 	tabindent( s, indent );
 	s << "( OR\n";
@@ -41,23 +43,5 @@ void Or::parse( Filereader & f, TokenStruct< std::string > & ts, Domain & d ) {
 	f.assert( ")" );
 }
 
-void Or::SHOPparse( Filereader & f, TokenStruct< std::string > & ts, Domain & d ) {
-	f.next();
-	f.assert( "(" );
-	if ( f.getChar() != ')' ) {
-		first = createSHOPCondition( f, d );
-		first->SHOPparse( f, ts, d );
-	}
-	else ++f.c;
-		
-	f.next();
-	f.assert( "(" );
-	if ( f.getChar() != ')' ) {
-		second = createSHOPCondition( f, d );
-		second->SHOPparse( f, ts, d );
-	}
-	else ++f.c;
 
-	f.next();
-	f.assert( ")" );
-}
+} } // namespaces

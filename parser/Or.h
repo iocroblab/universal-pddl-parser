@@ -3,10 +3,11 @@
 
 #include "Condition.h"
 
+namespace parser { namespace pddl {
+
 class Or : public Condition {
 
 public:
-
 	Condition *first, *second;
 
 	Or()
@@ -33,8 +34,6 @@ public:
 
 	void parse( Filereader & f, TokenStruct< std::string > & ts, Domain & d );
 
-	void SHOPparse( Filereader & f, TokenStruct< std::string > & ts, Domain & d );
-
 	void addParams( int m, unsigned n ) {
 		first->addParams( m, n );
 		second->addParams( m, n );
@@ -43,5 +42,6 @@ public:
 	Condition * copy( Domain & d ) {
 		return new Or( this, d );
 	}
-
 };
+
+} } // namespaces
