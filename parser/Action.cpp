@@ -27,11 +27,11 @@ void Action::PDDLPrint( std::ostream & s, unsigned indent, const TokenStruct< st
 
 void Action::parseConditions( Filereader & f, TokenStruct< std::string > & ts, Domain & d ) {
 	f.next();
-	f.assert( ":" );
+	f.assert_token( ":" );
 	std::string s = f.getToken();
 	if ( s == "PRECONDITION" ) {
 		f.next();
-		f.assert( "(" );
+		f.assert_token( "(" );
 		if ( f.getChar() != ')' ) {
 			pre = createCondition( f, d );
 			pre->parse( f, ts, d );
@@ -39,26 +39,26 @@ void Action::parseConditions( Filereader & f, TokenStruct< std::string > & ts, D
 		else ++f.c;
 
 		f.next();
-		f.assert( ":" );
+		f.assert_token( ":" );
 		s = f.getToken();
 	}
 	if ( s != "EFFECT" ) f.tokenExit( s );
 		
 	f.next();
-	f.assert( "(" );
+	f.assert_token( "(" );
 	if ( f.getChar() != ')' ) {
 		eff = createCondition( f, d );
 		eff->parse( f, ts, d );
 	}
 	else ++f.c;
 	f.next();
-	f.assert( ")" );
+	f.assert_token( ")" );
 }
 
 void Action::parse( Filereader & f, TokenStruct< std::string > & ts, Domain & d ) {
 	f.next();
-	f.assert( ":PARAMETERS" );
-	f.assert( "(" );
+	f.assert_token( ":PARAMETERS" );
+	f.assert_token( "(" );
 
 	TokenStruct< std::string > astruct = f.parseTypedList( true, d.types );
 	params = d.convertTypes( astruct.types );

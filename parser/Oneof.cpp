@@ -16,7 +16,7 @@ void Oneof::PDDLPrint( std::ostream & s, unsigned indent, const TokenStruct< std
 
 void Oneof::parse( Filereader & f, TokenStruct< std::string > & ts, Domain & d ) {
 	for ( f.next(); f.getChar() != ')'; f.next() ) {
-		f.assert( "(" );
+		f.assert_token( "(" );
 		Condition * condition = createCondition( f, d );
 		condition->parse( f, ts, d );
 		conds.push_back( condition );

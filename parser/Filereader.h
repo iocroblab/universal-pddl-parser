@@ -104,7 +104,7 @@ public:
 	}
 
 	// assert syntax
-	void assert( const std::string & t ) {
+	void assert_token( const std::string & t ) {
 		unsigned b = 0;
 		for ( unsigned k = 0; c + k < s.size() && k < t.size(); ++k )
 			b += s[c + k] == t[k] || 
@@ -122,7 +122,7 @@ public:
 		std::string out;
 		std::string t[5] = { "(", "DEFINE", "(", u, ")" };
 		for ( unsigned i = 0; i < 5; ++i ) {
-			assert( t[i] );
+			assert_token( t[i] );
 			if ( i == 3 ) {
 				out = getToken();
 				next();
@@ -139,13 +139,13 @@ public:
 		TokenStruct< std::string > out;
 		for ( next(); getChar() != ')' && lt.find( getChar() ) == std::string::npos; next() ) {
 			if ( getChar() == '-' ) {
-				assert( "-" );
+				assert_token( "-" );
 
 				std::string t;
 				// check if the type is "EITHER"
 				if ( getChar() == '(' ) {
-					assert( "(" );
-					assert( "EITHER" );
+					assert_token( "(" );
+					assert_token( "EITHER" );
 
 					t = "( EITHER";
 					for ( ; getChar() != ')'; next() ) {
@@ -162,8 +162,8 @@ public:
 				k = out.size();
 			}
 			else if ( getChar() == '(' ) {
-				assert( "(" );
-				assert( ":PRIVATE" );
+				assert_token( "(" );
+				assert_token( ":PRIVATE" );
 				getToken();
 				out.append( parseTypedList( check, ts ) );
 			}

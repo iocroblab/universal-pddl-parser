@@ -22,7 +22,7 @@ void Equals::parse( Filereader & f, TokenStruct< std::string > & ts, Domain & d 
 		else f.tokenExit( s );
 	}
 
-	f.assert( ")" );
+	f.assert_token( ")" );
 }
 
 

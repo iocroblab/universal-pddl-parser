@@ -18,11 +18,11 @@ void Increase::PDDLPrint( std::ostream & s, unsigned indent, const TokenStruct< 
 
 void Increase::parse( Filereader & f, TokenStruct< std::string > & ts, Domain & d ) {
 	f.next();
-	f.assert( "(" );
-	f.assert( "TOTAL-COST" );
-	f.assert( ")" );
+	f.assert_token( "(" );
+	f.assert_token( "TOTAL-COST" );
+	f.assert_token( ")" );
 	if ( f.getChar() == '(' ) {
-		f.assert( "(" );
+		f.assert_token( "(" );
 		ground = new Ground( d.funcs.get( f.getToken( d.funcs ) ) );
 		ground->parse( f, ts, d );
 	}
@@ -31,7 +31,7 @@ void Increase::parse( Filereader & f, TokenStruct< std::string > & ts, Domain & 
 		ss >> value;
 	}
 	f.next();
-	f.assert( ")" );
+	f.assert_token( ")" );
 }
 
 } } // namespaces

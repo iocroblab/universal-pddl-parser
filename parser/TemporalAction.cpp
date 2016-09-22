@@ -44,7 +44,7 @@ Expression * TemporalAction::parseDuration( Filereader & f, TokenStruct< std::st
 			f.next();
 			Expression * left = parseDuration( f, ts, d );
 			Expression * right = parseDuration( f, ts, d );
-			f.assert( ")" );
+			f.assert_token( ")" );
 			return new CompositeExpression( s[0], left, right );
 		}
 		else {
@@ -56,7 +56,7 @@ Expression * TemporalAction::parseDuration( Filereader & f, TokenStruct< std::st
 				c->params[i] = ts.index( f.getToken( ts ) );
 			}
 			f.next();
-			f.assert( ")" );
+			f.assert_token( ")" );
 			return new FunctionExpression( c );
 		}
 	}
@@ -110,7 +110,7 @@ void TemporalAction::PDDLPrint( std::ostream & s, unsigned indent, const TokenSt
 
 void TemporalAction::parseCondition( Filereader & f, TokenStruct< std::string > & ts, Domain & d, And * a ) {
 	f.next();
-	f.assert( "(" );
+	f.assert_token( "(" );
 	Condition * c = createCondition( f, d );
 	c->parse( f, ts, d );
 	a->conds.push_back( c );
@@ -118,35 +118,35 @@ void TemporalAction::parseCondition( Filereader & f, TokenStruct< std::string > 
 
 void TemporalAction::parse( Filereader & f, TokenStruct< std::string > & ts, Domain & d ) {
 	f.next();
-	f.assert( ":PARAMETERS" );
-	f.assert( "(" );
+	f.assert_token( ":PARAMETERS" );
+	f.assert_token( "(" );
 
 	TokenStruct< std::string > astruct = f.parseTypedList( true, d.types );
 	params = d.convertTypes( astruct.types );
 
 	f.next();
-	f.assert( ":DURATION" );
-	f.assert( "(" );
-	f.assert( "=" );
-	f.assert( "?DURATION" );
+	f.assert_token( ":DURATION" );
+	f.assert_token( "(" );
+	f.assert_token( "=" );
+	f.assert_token( "?DURATION" );
 	durationExpr = parseDuration( f, astruct, d );
 	f.next();
-	f.assert( ")" );
+	f.assert_token( ")" );
 
 	f.next();
-	f.assert( ":" );
+	f.assert_token( ":" );
 	std::string s = f.getToken();
 	if ( s == "CONDITION" ) {
 		pre = new And;
 		pre_o = new And;
 		pre_e = new And;
 		f.next();
-		f.assert( "(" );
+		f.assert_token( "(" );
 		if ( f.getChar() != ')' ) {
 			s = f.getToken();
 			if ( s == "AND" ) {
 				for ( f.next(); f.getChar() != ')'; f.next() ) {
-					f.assert( "(" );
+					f.assert_token( "(" );
 					s = f.getToken();
 					f.next();
 					std::string t = f.getToken();
@@ -160,7 +160,7 @@ void TemporalAction::parse( Filereader & f, TokenStruct< std::string > & ts, Dom
 					else f.tokenExit( s + " " + t );
 
 					f.next();
-					f.assert( ")" );
+					f.assert_token( ")" );
 				}
 				++f.c;
 			}
@@ -177,19 +177,19 @@ void TemporalAction::parse( Filereader & f, TokenStruct< std::string > & ts, Dom
 				else f.tokenExit( s + " " + t );
 
 				f.next();
-				f.assert( ")" );
+				f.assert_token( ")" );
 			}
 		}
 		else ++f.c;
 
 		f.next();
-		f.assert( ":" );
+		f.assert_token( ":" );
 		s = f.getToken();
 	}
 	if ( s != "EFFECT" ) f.tokenExit( s );
 
 	f.next();
-	f.assert( "(" );
+	f.assert_token( "(" );
 	if ( f.getChar() != ')' ) {
 		eff = new And;
 		eff_e = new And;
@@ -197,7 +197,7 @@ void TemporalAction::parse( Filereader & f, TokenStruct< std::string > & ts, Dom
 		s = f.getToken();
 		if ( s == "AND" ) {
 			for ( f.next(); f.getChar() != ')'; f.next() ) {
-				f.assert( "(" );
+				f.assert_token( "(" );
 				s = f.getToken();
 				f.next();
 				std::string t = f.getToken();
@@ -209,7 +209,7 @@ void TemporalAction::parse( Filereader & f, TokenStruct< std::string > & ts, Dom
 				else f.tokenExit( s + " " + t );
 
 				f.next();
-				f.assert( ")" );
+				f.assert_token( ")" );
 			}
 			++f.c;
 		}
@@ -224,13 +224,13 @@ void TemporalAction::parse( Filereader & f, TokenStruct< std::string > & ts, Dom
 			else f.tokenExit( s + " " + t );
 
 			f.next();
-			f.assert( ")" );
+			f.assert_token( ")" );
 		}
 	}
 	else ++f.c;
 
 	f.next();
-	f.assert( ")" );
+	f.assert_token( ")" );
 }
 
 } } // namespaces

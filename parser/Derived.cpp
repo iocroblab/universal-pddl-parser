@@ -29,18 +29,18 @@ void Derived::PDDLPrint( std::ostream & s, unsigned indent, const TokenStruct< s
 
 void Derived::parse( Filereader & f, TokenStruct< std::string > & ts, Domain & d ) {
 	f.next();
-	f.assert( "(" );
+	f.assert_token( "(" );
 	name = f.getToken( d.preds );
 	TokenStruct< std::string > dstruct = f.parseTypedList( true, d.types );
 	params = d.convertTypes( dstruct.types );
 
 	f.next();
-	f.assert( "(" );
+	f.assert_token( "(" );
 	cond = createCondition( f, d );
 	cond->parse( f, dstruct, d );
 
 	f.next();
-	f.assert( ")" );
+	f.assert_token( ")" );
 }
 
 } } // namespaces

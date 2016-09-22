@@ -24,7 +24,7 @@ void When::PDDLPrint( std::ostream & s, unsigned indent, const TokenStruct< std:
 
 void When::parse( Filereader & f, TokenStruct< std::string > & ts, Domain & d ) {
 	f.next();
-	f.assert( "(" );
+	f.assert_token( "(" );
 	if ( f.getChar() != ')' ) {
 		pars = createCondition( f, d );
 		pars->parse( f, ts, d );
@@ -32,7 +32,7 @@ void When::parse( Filereader & f, TokenStruct< std::string > & ts, Domain & d ) 
 	else ++f.c;
 		
 	f.next();
-	f.assert( "(" );
+	f.assert_token( "(" );
 	if ( f.getChar() != ')' ) {
 		cond = createCondition( f, d );
 		cond->parse( f, ts, d );
@@ -40,7 +40,7 @@ void When::parse( Filereader & f, TokenStruct< std::string > & ts, Domain & d ) 
 	else ++f.c;
 
 	f.next();
-	f.assert( ")" );
+	f.assert_token( ")" );
 }
 
 } } // namespaces

@@ -13,7 +13,7 @@ void Function::parse( Filereader & f, TokenStruct< std::string > & ts, Domain & 
 	
 	f.next();
 	if ( f.getChar() == '-' ) {
-		f.assert( "-" );
+		f.assert_token( "-" );
 		std::string s = f.getToken();
 		if ( s != "NUMBER" ) {
 			f.c -= s.size();

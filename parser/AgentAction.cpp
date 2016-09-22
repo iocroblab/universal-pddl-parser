@@ -37,18 +37,18 @@ void AgentAction::parse( Filereader & f, TokenStruct< std::string > & ts, Domain
 	TokenStruct< std::string > astruct;
 
 	f.next();
-	f.assert( ":AGENT" );
+	f.assert_token( ":AGENT" );
 	astruct.insert( f.getToken() );
 	if ( d.typed ) {
 		f.next();
-		f.assert( "-" );
+		f.assert_token( "-" );
 		astruct.types.push_back( f.getToken( d.types ) );
 	}
 	else astruct.types.push_back( "OBJECT" );
 
 	f.next();
-	f.assert( ":PARAMETERS" );
-	f.assert( "(" );
+	f.assert_token( ":PARAMETERS" );
+	f.assert_token( "(" );
 	astruct.append( f.parseTypedList( true, d.types ) );
 	params = d.convertTypes( astruct.types );
 

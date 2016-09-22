@@ -30,14 +30,14 @@ void NetworkNode::PDDLPrint( std::ostream & s, unsigned indent, const TokenStruc
 
 void NetworkNode::parse( Filereader & f, TokenStruct< std::string > & ts, Domain & d ) {
 	f.next();
-	f.assert( ":PARAMETERS" );
-	f.assert( "(" );
+	f.assert_token( ":PARAMETERS" );
+	f.assert_token( "(" );
 	TokenStruct< std::string > nstruct = f.parseTypedList( true, d.types );
 	params = d.convertTypes( nstruct.types );
 		
 	f.next();
-	f.assert( ":BOUNDS" );
-	f.assert( "(" );
+	f.assert_token( ":BOUNDS" );
+	f.assert_token( "(" );
 	std::string lo = f.getToken();
 	std::istringstream( lo ) >> lower;
 	f.next();
@@ -45,12 +45,12 @@ void NetworkNode::parse( Filereader & f, TokenStruct< std::string > & ts, Domain
 	if ( hi == "INF" ) upper = 1000000;
 	else std::istringstream( hi ) >> upper;
 	f.next();
-	f.assert( ")" );
+	f.assert_token( ")" );
 
-	f.assert( ":ACTIONS" );
-	f.assert( "(" );
+	f.assert_token( ":ACTIONS" );
+	f.assert_token( "(" );
 	while ( f.getChar() != ')' ) {
-		f.assert( "(" );
+		f.assert_token( "(" );
 		int action = d.actions.index( f.getToken( d.actions ) );
 		f.next();
 
@@ -62,12 +62,12 @@ void NetworkNode::parse( Filereader & f, TokenStruct< std::string > & ts, Domain
 			f.next();
 		}
 		templates.push_back( c );
-		f.assert( ")" );
+		f.assert_token( ")" );
 	}
 
 	++f.c;
 	f.next();
-	f.assert( ")" );
+	f.assert_token( ")" );
 }
 
 } } // namespaces

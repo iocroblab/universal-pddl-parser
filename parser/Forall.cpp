@@ -25,7 +25,7 @@ void Forall::PDDLPrint( std::ostream & s, unsigned indent, const TokenStruct< st
 
 void Forall::parse( Filereader & f, TokenStruct< std::string > & ts, Domain & d ) {
 	f.next();
-	f.assert( "(" );
+	f.assert_token( "(" );
 
 	TokenStruct< std::string > fs = f.parseTypedList( true, d.types );
 	params = d.convertTypes( fs.types );
@@ -34,7 +34,7 @@ void Forall::parse( Filereader & f, TokenStruct< std::string > & ts, Domain & d 
 	fstruct.append( fs );
 
 	f.next();
-	f.assert( "(" );
+	f.assert_token( "(" );
 	if ( f.getChar() != ')' ) {
 		cond = createCondition( f, d );
 		cond->parse( f, fstruct, d );
@@ -42,7 +42,7 @@ void Forall::parse( Filereader & f, TokenStruct< std::string > & ts, Domain & d 
 	else ++f.c;
 
 	f.next();
-	f.assert( ")" );
+	f.assert_token( ")" );
 }
 
 } } // namespaces

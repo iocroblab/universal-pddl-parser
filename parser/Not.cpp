@@ -12,7 +12,7 @@ void Not::PDDLPrint( std::ostream & s, unsigned indent, const TokenStruct< std::
 
 void Not::parse( Filereader & f, TokenStruct< std::string > & ts, Domain & d ) {
 	f.next();
-	f.assert( "(" );
+	f.assert_token( "(" );
 
 	std::string s = f.getToken();
 	int i = d.preds.index( s );
@@ -24,7 +24,7 @@ void Not::parse( Filereader & f, TokenStruct< std::string > & ts, Domain & d ) {
 	cond->parse( f, ts, d );
 
 	f.next();
-	f.assert( ")" );
+	f.assert_token( ")" );
 }
 
 

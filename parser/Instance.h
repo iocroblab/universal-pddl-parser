@@ -34,8 +34,8 @@ public:
 		if ( DOMAIN_DEBUG ) std::cout << name << "\n";
     
 		for ( ; f.getChar() != ')'; f.next() ) {
-			f.assert( "(" );
-			f.assert( ":" );
+			f.assert_token( "(" );
+			f.assert_token( ":" );
 			std::string t = f.getToken();
 
 			if ( DOMAIN_DEBUG ) std::cout << t << "\n";
@@ -53,8 +53,8 @@ public:
 
 	void parseDomain( Filereader & f ) {
 		f.next();
-		f.assert( d.name );
-		f.assert( ")" );
+		f.assert_token( d.name );
+		f.assert_token( ")" );
 	}
 
 	void parseObjects( Filereader & f ) {
@@ -80,8 +80,8 @@ public:
 	virtual void parseGround( Filereader & f, GroundVec & v ) {
 		TypeGround * c = 0;
 		if ( f.getChar() == '=') {
-			f.assert( "=" );
-			f.assert( "(" );
+			f.assert_token( "=" );
+			f.assert_token( "(" );
 
 			std::string s = f.getToken();
 			int i = d.funcs.index( s );
@@ -97,7 +97,7 @@ public:
 
 	void parseInit( Filereader & f ) {
 		for ( f.next(); f.getChar() != ')'; f.next() ) {
-			f.assert( "(" );
+			f.assert_token( "(" );
 			parseGround( f, init );
 		}
 		++f.c;
@@ -108,12 +108,12 @@ public:
 
 	virtual void parseGoal( Filereader & f ) {
 		f.next();
-		f.assert( "(" );
+		f.assert_token( "(" );
 
 		std::string s = f.getToken();
 		if ( s == "AND" ) {
 			for ( f.next(); f.getChar() != ')'; f.next() ) {
-				f.assert( "(" );
+				f.assert_token( "(" );
 				parseGround( f, goal );
 			}
 			++f.c;
@@ -123,7 +123,7 @@ public:
 			f.c -= s.size();
 			parseGround( f, goal );
 		}
-		f.assert( ")" );
+		f.assert_token( ")" );
 
 		for ( unsigned i = 0; DOMAIN_DEBUG && i < goal.size(); ++i ) std::cout << "  " << goal[i];
 	}
@@ -138,12 +138,12 @@ public:
 		metric = true;
 
 		f.next();
-		f.assert( "MINIMIZE" );
-		f.assert( "(" );
-		if ( d.temp ) f.assert( "TOTAL-TIME" );
-		else f.assert( "TOTAL-COST" );
-		f.assert( ")" );
-		f.assert( ")" );
+		f.assert_token( "MINIMIZE" );
+		f.assert_token( "(" );
+		if ( d.temp ) f.assert_token( "TOTAL-TIME" );
+		else f.assert_token( "TOTAL-COST" );
+		f.assert_token( ")" );
+		f.assert_token( ")" );
 	}
 
 	// add an object of a certain type

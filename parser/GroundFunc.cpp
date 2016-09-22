@@ -29,7 +29,7 @@ void GroundFunc<double>::parse( Filereader & f, TokenStruct< std::string > & ts,
 	if ( !( i >> value ) ) f.tokenExit( s );
 
 	f.next();
-	f.assert( ")" );
+	f.assert_token( ")" );
 }
 
 template <>
@@ -47,7 +47,7 @@ void GroundFunc<int>::parse( Filereader & f, TokenStruct< std::string > & ts, Do
 	}
 
 	f.next();
-	f.assert( ")" );
+	f.assert_token( ")" );
 }
 
 } } // namespaces

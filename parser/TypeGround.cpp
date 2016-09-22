@@ -40,7 +40,7 @@ void TypeGround::parse( Filereader & f, TokenStruct< std::string > & ts, Domain 
 			else f.tokenExit( s );
 		}
 	}
-	f.assert( ")" );
+	f.assert_token( ")" );
 }
 
 } } // namespaces

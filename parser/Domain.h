@@ -89,8 +89,8 @@ public:
 		if ( DOMAIN_DEBUG ) std::cout << name << "\n";
 
 		for ( ; f.getChar() != ')'; f.next() ) {
-			f.assert( "(" );
-			f.assert( ":" );
+			f.assert_token( "(" );
+			f.assert_token( ":" );
 			std::string t = f.getToken();
 
 			if ( DOMAIN_DEBUG ) std::cout << t << "\n";
@@ -113,7 +113,7 @@ public:
 
 	void parseReq( Filereader & f ) {
 		for ( f.next(); f.getChar() != ')'; f.next() ) {
-			f.assert( ":" );
+			f.assert_token( ":" );
 			std::string s = f.getToken();
 
 			if ( DOMAIN_DEBUG ) std::cout << "  " << s << "\n";
@@ -227,10 +227,10 @@ public:
 		}
 
 		for ( f.next(); f.getChar() != ')'; f.next() ) {
-			f.assert( "(" );
+			f.assert_token( "(" );
 			if ( f.getChar() == ':' ) {
 				// Needed to support MA-PDDL
-				f.assert( ":PRIVATE" );
+				f.assert_token( ":PRIVATE" );
 				f.parseTypedList( true, types, "(" );
 
 				// CURRENT HACK: TOTALLY IGNORE PRIVATE !!!
@@ -255,7 +255,7 @@ public:
 		}
 
 		for ( f.next(); f.getChar() != ')'; f.next() ) {
-			f.assert( "(" );
+			f.assert_token( "(" );
 			Function * c = new Function( f.getToken() );
 			c->parse( f, types[0]->constants, *this );
 
@@ -339,7 +339,7 @@ public:
 		if ( a != b ) mf[MIN( a, b )] = MAX( a, b );
 
 		f.next();
-		f.assert( ")" );
+		f.assert_token( ")" );
 	}
 
 

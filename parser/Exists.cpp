@@ -24,7 +24,7 @@ void Exists::PDDLPrint( std::ostream & s, unsigned indent, const TokenStruct< st
 
 void Exists::parse( Filereader & f, TokenStruct< std::string > & ts, Domain & d ) {
 	f.next();
-	f.assert( "(" );
+	f.assert_token( "(" );
 
 	TokenStruct< std::string > es = f.parseTypedList( true, d.types );
 	params = d.convertTypes( es.types );
@@ -33,7 +33,7 @@ void Exists::parse( Filereader & f, TokenStruct< std::string > & ts, Domain & d 
 	estruct.append( es );
 
 	f.next();
-	f.assert( "(" );
+	f.assert_token( "(" );
 	if ( f.getChar() != ')' ) {
 		cond = createCondition( f, d );
 		cond->parse( f, estruct, d );
@@ -41,7 +41,7 @@ void Exists::parse( Filereader & f, TokenStruct< std::string > & ts, Domain & d 
 	else ++f.c;
 
 	f.next();
-	f.assert( ")" );
+	f.assert_token( ")" );
 }
 
 } } // namespaces
