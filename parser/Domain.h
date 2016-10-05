@@ -1,7 +1,6 @@
 
 #pragma once
 
-#include "AgentAction.h"
 #include "Task.h"
 #include "TemporalAction.h"
 #include "And.h"
@@ -12,7 +11,7 @@
 #include "Function.h"
 #include "GroundFunc.h"
 #include "Increase.h"
-#include "NetworkNode.h"
+
 #include "Not.h"
 #include "Oneof.h"
 #include "Or.h"
@@ -23,14 +22,7 @@
 
 namespace parser { namespace pddl {
 
-// union-find: return the root in the tree that n belongs to
-inline unsigned uf( UnsignedVec & mf, unsigned n ) {
-	if ( mf[n] == n ) return n;
-	else return mf[n] = uf( mf, mf[n] );
-}
-
 class Domain {
-
 public:
 
 	std::string name;                   // name of domain
@@ -39,23 +31,17 @@ public:
 	bool strips, adl, condeffects;      // whether domain is STRIPS, ADL and/or has conditional effects
 	bool typed, cons, costs;            // whether domain is typed, has constants, has costs
 	bool temp, nondet, neg;             // whether domain is temporal, is non-deterministic, has negative precons
-	bool multiagent, unfact, fact, net; // whether domain is multiagent and unfactored/factored/networked
 
 	TokenStruct< Type * > types;        // types
 	TokenStruct< Lifted * > preds;      // predicates
 	TokenStruct< Function * > funcs;    // functions
 	TokenStruct< Action * > actions;    // actions
 	TokenStruct< Derived * > derived;   // derived predicates
-	TokenStruct< Task * > tasks;		// tasks
-
-	TokenStruct< NetworkNode * > nodes; // nodes of concurrency network
-	PairVec edges;                      // edges of concurrency network
-	UnsignedVec mf;                     // merge-find for connected components
+	TokenStruct< Task * > tasks;        // tasks
 
 	Domain()
 		: equality( false ), strips( false ), adl( false ), condeffects( false )
 		, typed( false ), cons( false ), costs( false ), temp( false ), nondet( false ), neg( false )
-		, multiagent( false ), unfact( false ), fact( false ), net( false )
 	{
 		types.insert( new Type( "OBJECT" ) ); // Type 0 is always "OBJECT", whether the domain is typed or not
 	}
@@ -76,8 +62,6 @@ public:
 			delete actions[i];
 		for ( unsigned i = 0; i < derived.size(); ++i )
 			delete derived[i];
-		for ( unsigned i = 0; i < nodes.size(); ++i )
-			delete nodes[i];
 		for ( unsigned i = 0; i < tasks.size(); ++i )
 		 	delete tasks[i];
 	}
@@ -94,48 +78,59 @@ public:
 			std::string t = f.getToken();
 
 			if ( DOMAIN_DEBUG ) std::cout << t << "\n";
-
-			if ( t == "REQUIREMENTS" ) parseReq( f );
-			else if ( t == "TYPES" ) parseTypes( f );
-			else if ( t == "CONSTANTS" ) parseConstants( f );
-			else if ( t == "PREDICATES" ) parsePredicates( f );
-			else if ( t == "FUNCTIONS" ) parseFunctions( f );
-			else if ( t == "ACTION" ) parseAction( f );
-			else if ( t == "DURATIVE-ACTION" ) parseDurativeAction( f );
-			else if ( t == "CONCURRENCY-CONSTRAINT" ) parseNetworkNode( f );
-			else if ( t == "POSITIVE-DEPENDENCE" ) parseNetworkEdge( f );
-			else if ( t == "DERIVED" ) parseDerived( f );
-//			else if ( t == "AXIOM" ) parseAxiom( f );
-			else f.tokenExit( t );
+			
+			if (!parseBlock(t, f)) {
+				f.tokenExit( t );
+			}
 		}
+	}
+	
+	//! Returns a boolean indicating whether the block was correctly parsed
+	virtual bool parseBlock(const std::string& t, Filereader& f) {
+		if ( t == "REQUIREMENTS" ) parseRequirements( f );
+		else if ( t == "TYPES" ) parseTypes( f );
+		else if ( t == "CONSTANTS" ) parseConstants( f );
+		else if ( t == "PREDICATES" ) parsePredicates( f );
+		else if ( t == "FUNCTIONS" ) parseFunctions( f );
+		else if ( t == "ACTION" ) parseAction( f );
+		else if ( t == "DURATIVE-ACTION" ) parseDurativeAction( f );
+		else if ( t == "DERIVED" ) parseDerived( f );
+//			else if ( t == "AXIOM" ) parseAxiom( f );
+		else return false; // Unknown block type
+		
+		return true;
 	}
 
 
-	void parseReq( Filereader & f ) {
+	void parseRequirements( Filereader & f ) {
 		for ( f.next(); f.getChar() != ')'; f.next() ) {
 			f.assert_token( ":" );
 			std::string s = f.getToken();
 
 			if ( DOMAIN_DEBUG ) std::cout << "  " << s << "\n";
-
-			if ( s == "STRIPS" ) strips = true;
-			else if ( s == "ADL" ) adl = true;
-			else if ( s == "NEGATIVE-PRECONDITIONS" ) neg = true;
-			else if ( s == "CONDITIONAL-EFFECTS" ) condeffects = true;
-			else if ( s == "TYPING" ) typed = true;
-			else if ( s == "ACTION-COSTS" ) costs = true;
-			else if ( s == "EQUALITY" ) equality = true;
-			else if ( s == "DURATIVE-ACTIONS" ) temp = true;
-			else if ( s == "NON-DETERMINISTIC" ) nondet = true;
-			else if ( s == "MULTI-AGENT" ) multiagent = true;
-			else if ( s == "UNFACTORED-PRIVACY" ) unfact = true;
-			else if ( s == "FACTORED-PRIVACY" ) fact = true;
-			else if ( s == "CONCURRENCY-NETWORK" ) net = true;
-
-			else f.tokenExit( s );
+			
+			if (!parseRequirement(s)) {
+				f.tokenExit( s );
+			}
 		}
 
 		++f.c;
+	}
+	
+	//! Returns a boolean indicating whether the requirement was correctly parsed
+	virtual bool parseRequirement( const std::string& s ) {
+		if ( s == "STRIPS" ) strips = true;
+		else if ( s == "ADL" ) adl = true;
+		else if ( s == "NEGATIVE-PRECONDITIONS" ) neg = true;
+		else if ( s == "CONDITIONAL-EFFECTS" ) condeffects = true;
+		else if ( s == "TYPING" ) typed = true;
+		else if ( s == "ACTION-COSTS" ) costs = true;
+		else if ( s == "EQUALITY" ) equality = true;
+		else if ( s == "DURATIVE-ACTIONS" ) temp = true;
+		else if ( s == "NON-DETERMINISTIC" ) nondet = true;
+		else return false; // Unknown requirement
+		
+		return true;
 	}
 
 	// get the type corresponding to a string
@@ -265,21 +260,16 @@ public:
 		++f.c;
 	}
 
-	void parseAction( Filereader & f ) {
+	virtual void parseAction( Filereader & f ) {
 		if ( !preds.size() ) {
 			std::cout << "Predicates needed before defining actions\n";
 			exit(1);
 		}
 
 		f.next();
-		Action * a = 0;
-
-		// If domain is multiagent, parse using AgentAction
-		if ( multiagent ) a = new AgentAction( f.getToken() );
-		else a = new Action( f.getToken() );
-
+		Action * a = new Action( f.getToken() );
 		a->parse( f, types[0]->constants, *this );
-
+		
 		if ( DOMAIN_DEBUG ) std::cout << a << "\n";
 		actions.insert( a );
 	}
@@ -311,37 +301,6 @@ public:
 		if ( DOMAIN_DEBUG ) std::cout << a << "\n";
 		actions.insert( a );
 	}
-
-	void parseNetworkNode( Filereader & f ) {
-		if ( !preds.size() || !actions.size() ) {
-			std::cout << "Predicates and actions needed before defining a concurrency network\n";
-			exit(1);
-		}
-
-		f.next();
-		NetworkNode * n = new NetworkNode( f.getToken() );
-		n->parse( f, types[0]->constants, *this );
-
-		if ( DOMAIN_DEBUG ) std::cout << n << "\n";
-
-		nodes.insert( n );
-		mf.push_back( mf.size() );
-	}
-
-	void parseNetworkEdge( Filereader & f ) {
-		f.next();
-		int n1 = nodes.index( f.getToken( nodes ) );
-		f.next();
-		int n2 = nodes.index( f.getToken( nodes ) );
-		edges.push_back( std::make_pair( n1, n2 ) );
-
-		unsigned a = uf( mf, n1 ), b = uf( mf, n2 );
-		if ( a != b ) mf[MIN( a, b )] = MAX( a, b );
-
-		f.next();
-		f.assert_token( ")" );
-	}
-
 
 
 	// Return a copy of the type structure, with newly allocated types
@@ -525,21 +484,7 @@ public:
 	friend std::ostream& operator<<(std::ostream &os, const Domain& o) { return o.print(os); }
 	virtual std::ostream& print(std::ostream& os) const {
 		os << "( DEFINE ( DOMAIN " << name << " )\n";
-		os << "( :REQUIREMENTS";
-		if ( equality ) os << " :EQUALITY";
-		if ( strips ) os << " :STRIPS";
-		if ( costs ) os << " :ACTION-COSTS";
-		if ( adl ) os << " :ADL";
-		if ( neg ) os << " :NEGATIVE-PRECONDITIONS";
-		if ( condeffects ) os << " :CONDITIONAL-EFFECTS";
-		if ( typed ) os << " :TYPING";
-		if ( temp ) os << " :DURATIVE-ACTIONS";
-		if ( nondet ) os << " :NON-DETERMINISTIC";
-		if ( multiagent ) os << " :MULTI-AGENT";
-		if ( unfact ) os << " :UNFACTORED-PRIVACY";
-		if ( fact ) os << " :FACTORED-PRIVACY";
-		if ( net ) os << " :CONCURRENCY-NETWORK";
-		os << " )\n";
+		print_requirements(os);
 
 		if ( typed ) {
 			os << "( :TYPES\n";
@@ -583,19 +528,29 @@ public:
 
 		for ( unsigned i = 0; i < derived.size(); ++i )
 			derived[i]->PDDLPrint( os, 0, TokenStruct< std::string >(), *this );
-
-		for ( unsigned i = 0; i < nodes.size(); ++i )
-			nodes[i]->PDDLPrint( os, 0, TokenStruct< std::string >(), *this );
-
-		for ( unsigned i = 0; i < edges.size(); ++i ) {
-			os << "( :POSITIVE-DEPENDENCE ";
-			os << nodes[edges[i].first]->name << " ";
-			os << nodes[edges[i].second]->name << " )\n";
-		}
+		
+		print_addtional_blocks(os);
 
 		os << ")\n";
 		return os;
 	}
+	
+	virtual std::ostream& print_requirements(std::ostream& os) const {
+		os << "( :REQUIREMENTS";
+		if ( equality ) os << " :EQUALITY";
+		if ( strips ) os << " :STRIPS";
+		if ( costs ) os << " :ACTION-COSTS";
+		if ( adl ) os << " :ADL";
+		if ( neg ) os << " :NEGATIVE-PRECONDITIONS";
+		if ( condeffects ) os << " :CONDITIONAL-EFFECTS";
+		if ( typed ) os << " :TYPING";
+		if ( temp ) os << " :DURATIVE-ACTIONS";
+		if ( nondet ) os << " :NON-DETERMINISTIC";
+		os << " )\n";
+		return os;
+	}
+	
+	virtual std::ostream& print_addtional_blocks(std::ostream& os) const { return os; }
 };
 
 } } // namespaces

@@ -2,7 +2,7 @@
 #include <fstream>
 #include <sstream>
 
-#include "MiniCppUnit.h"
+#include <minicppunit/MiniCppUnit.h>
 #include <parser/Instance.h>
 
 using namespace parser::pddl;
@@ -16,7 +16,6 @@ public:
 		TEST_CASE( scheduleTest );
 		TEST_CASE( elevatorTest );
 		TEST_CASE( temporalTest );
-		TEST_CASE( multiagentTest );
 	}
 
 	template < typename T >
@@ -66,14 +65,6 @@ public:
 
 		checkEqual( dom, "tests/expected/Mapana_dom.pddl" );
 		checkEqual( ins, "tests/expected/Mapana_ins.pddl" );
-	}
-
-	void multiagentTest() {
-		Domain dom( "domains/Multilog_dom.pddl" );
-		Instance ins( dom, "domains/Multilog_ins.pddl" );
-
-		checkEqual( dom, "tests/expected/Multilog_dom.pddl" );
-		checkEqual( ins, "tests/expected/Multilog_ins.pddl" );
 	}
 };
 
