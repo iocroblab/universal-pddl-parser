@@ -31,6 +31,7 @@ public:
 	bool strips, adl, condeffects;      // whether domain is STRIPS, ADL and/or has conditional effects
 	bool typed, cons, costs;            // whether domain is typed, has constants, has costs
 	bool temp, nondet, neg;             // whether domain is temporal, is non-deterministic, has negative precons
+	bool universal;                     // whether domain has universal precons
 
 	TokenStruct< Type * > types;        // types
 	TokenStruct< Lifted * > preds;      // predicates
@@ -41,7 +42,7 @@ public:
 
 	Domain()
 		: equality( false ), strips( false ), adl( false ), condeffects( false )
-		, typed( false ), cons( false ), costs( false ), temp( false ), nondet( false ), neg( false )
+		, typed( false ), cons( false ), costs( false ), temp( false ), nondet( false ), neg( false ), universal( false )
 	{
 		types.insert( new Type( "OBJECT" ) ); // Type 0 is always "OBJECT", whether the domain is typed or not
 	}
@@ -78,13 +79,13 @@ public:
 			std::string t = f.getToken();
 
 			if ( DOMAIN_DEBUG ) std::cout << t << "\n";
-			
+
 			if (!parseBlock(t, f)) {
 				f.tokenExit( t );
 			}
 		}
 	}
-	
+
 	//! Returns a boolean indicating whether the block was correctly parsed
 	virtual bool parseBlock(const std::string& t, Filereader& f) {
 		if ( t == "REQUIREMENTS" ) parseRequirements( f );
@@ -97,7 +98,7 @@ public:
 		else if ( t == "DERIVED" ) parseDerived( f );
 //			else if ( t == "AXIOM" ) parseAxiom( f );
 		else return false; // Unknown block type
-		
+
 		return true;
 	}
 
@@ -108,7 +109,7 @@ public:
 			std::string s = f.getToken();
 
 			if ( DOMAIN_DEBUG ) std::cout << "  " << s << "\n";
-			
+
 			if (!parseRequirement(s)) {
 				f.tokenExit( s );
 			}
@@ -116,7 +117,7 @@ public:
 
 		++f.c;
 	}
-	
+
 	//! Returns a boolean indicating whether the requirement was correctly parsed
 	virtual bool parseRequirement( const std::string& s ) {
 		if ( s == "STRIPS" ) strips = true;
@@ -128,8 +129,9 @@ public:
 		else if ( s == "EQUALITY" ) equality = true;
 		else if ( s == "DURATIVE-ACTIONS" ) temp = true;
 		else if ( s == "NON-DETERMINISTIC" ) nondet = true;
+		else if ( s == "UNIVERSAL-PRECONDITIONS" ) universal = true;
 		else return false; // Unknown requirement
-		
+
 		return true;
 	}
 
@@ -269,7 +271,7 @@ public:
 		f.next();
 		Action * a = new Action( f.getToken() );
 		a->parse( f, types[0]->constants, *this );
-		
+
 		if ( DOMAIN_DEBUG ) std::cout << a << "\n";
 		actions.insert( a );
 	}
@@ -479,7 +481,7 @@ public:
 	int constantIndex( const std::string & name, const std::string & type ) {
 		return types.get( type )->parseConstant( name ).second;
 	}
-	
+
 	//! Prints a PDDL representation of the object to the given stream.
 	friend std::ostream& operator<<(std::ostream &os, const Domain& o) { return o.print(os); }
 	virtual std::ostream& print(std::ostream& os) const {
@@ -528,13 +530,13 @@ public:
 
 		for ( unsigned i = 0; i < derived.size(); ++i )
 			derived[i]->PDDLPrint( os, 0, TokenStruct< std::string >(), *this );
-		
+
 		print_addtional_blocks(os);
 
 		os << ")\n";
 		return os;
 	}
-	
+
 	virtual std::ostream& print_requirements(std::ostream& os) const {
 		os << "( :REQUIREMENTS";
 		if ( equality ) os << " :EQUALITY";
@@ -546,10 +548,11 @@ public:
 		if ( typed ) os << " :TYPING";
 		if ( temp ) os << " :DURATIVE-ACTIONS";
 		if ( nondet ) os << " :NON-DETERMINISTIC";
+		if ( universal ) os << " :UNIVERSAL-PRECONDITIONS";
 		os << " )\n";
 		return os;
 	}
-	
+
 	virtual std::ostream& print_addtional_blocks(std::ostream& os) const { return os; }
 };
 
