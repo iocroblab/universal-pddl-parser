@@ -36,7 +36,7 @@ void Derived::parse( Filereader & f, TokenStruct< std::string > & ts, Domain & d
 
 	f.next();
 	f.assert_token( "(" );
-	cond = createCondition( f, d );
+	cond = d.createCondition( f );
 	cond->parse( f, dstruct, d );
 
 	f.next();

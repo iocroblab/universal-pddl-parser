@@ -31,6 +31,4 @@ inline std::ostream & operator<<( std::ostream & stream, const Condition * c ) {
 
 typedef std::vector< Condition * > CondVec;
 
-Condition * createCondition( Filereader & f, Domain & d );
-
 } } // namespaces

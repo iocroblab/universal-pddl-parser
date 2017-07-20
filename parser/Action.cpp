@@ -33,7 +33,7 @@ void Action::parseConditions( Filereader & f, TokenStruct< std::string > & ts, D
 		f.next();
 		f.assert_token( "(" );
 		if ( f.getChar() != ')' ) {
-			pre = createCondition( f, d );
+			pre = d.createCondition( f );
 			pre->parse( f, ts, d );
 		}
 		else ++f.c;
@@ -43,11 +43,11 @@ void Action::parseConditions( Filereader & f, TokenStruct< std::string > & ts, D
 		s = f.getToken();
 	}
 	if ( s != "EFFECT" ) f.tokenExit( s );
-		
+
 	f.next();
 	f.assert_token( "(" );
 	if ( f.getChar() != ')' ) {
-		eff = createCondition( f, d );
+		eff = d.createCondition( f );
 		eff->parse( f, ts, d );
 	}
 	else ++f.c;

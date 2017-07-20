@@ -28,14 +28,14 @@ void Exists::parse( Filereader & f, TokenStruct< std::string > & ts, Domain & d 
 
 	TokenStruct< std::string > es = f.parseTypedList( true, d.types );
 	params = d.convertTypes( es.types );
-		
+
 	TokenStruct< std::string > estruct( ts );
 	estruct.append( es );
 
 	f.next();
 	f.assert_token( "(" );
 	if ( f.getChar() != ')' ) {
-		cond = createCondition( f, d );
+		cond = d.createCondition( f );
 		cond->parse( f, estruct, d );
 	}
 	else ++f.c;

@@ -26,15 +26,15 @@ void When::parse( Filereader & f, TokenStruct< std::string > & ts, Domain & d ) 
 	f.next();
 	f.assert_token( "(" );
 	if ( f.getChar() != ')' ) {
-		pars = createCondition( f, d );
+		pars = d.createCondition( f );
 		pars->parse( f, ts, d );
 	}
 	else ++f.c;
-		
+
 	f.next();
 	f.assert_token( "(" );
 	if ( f.getChar() != ')' ) {
-		cond = createCondition( f, d );
+		cond = d.createCondition( f );
 		cond->parse( f, ts, d );
 	}
 	else ++f.c;

@@ -17,7 +17,7 @@ void Forall::PDDLPrint( std::ostream & s, unsigned indent, const TokenStruct< st
 		tabindent( s, indent + 1 );
 		s << "()";
 	}
-	
+
 	s << "\n";
 	tabindent( s, indent );
 	s << ")";
@@ -29,14 +29,14 @@ void Forall::parse( Filereader & f, TokenStruct< std::string > & ts, Domain & d 
 
 	TokenStruct< std::string > fs = f.parseTypedList( true, d.types );
 	params = d.convertTypes( fs.types );
-		
+
 	TokenStruct< std::string > fstruct( ts );
 	fstruct.append( fs );
 
 	f.next();
 	f.assert_token( "(" );
 	if ( f.getChar() != ')' ) {
-		cond = createCondition( f, d );
+		cond = d.createCondition( f );
 		cond->parse( f, fstruct, d );
 	}
 	else ++f.c;

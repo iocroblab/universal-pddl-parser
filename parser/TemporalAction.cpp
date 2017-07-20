@@ -28,7 +28,7 @@ double FunctionExpression::evaluate( Instance & ins, const StringVec & par ) {
 			else return 1;
 		}
 	}
-	
+
 	for ( unsigned i = 0; i < ins.init.size(); ++i )
 		if ( ins.init[i]->name == c->name && ins.init[i]->params == v )
 			return ((GroundFunc<double> *)ins.init[i])->value;
@@ -111,7 +111,7 @@ void TemporalAction::PDDLPrint( std::ostream & s, unsigned indent, const TokenSt
 void TemporalAction::parseCondition( Filereader & f, TokenStruct< std::string > & ts, Domain & d, And * a ) {
 	f.next();
 	f.assert_token( "(" );
-	Condition * c = createCondition( f, d );
+	Condition * c = d.createCondition( f );
 	c->parse( f, ts, d );
 	a->conds.push_back( c );
 }

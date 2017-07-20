@@ -5,3 +5,4 @@ lib
 valgrind.txt
 ins.txt
 *.bin
+*.o
