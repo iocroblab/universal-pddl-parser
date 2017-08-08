@@ -5,7 +5,8 @@ namespace parser { namespace pddl {
 
 Increase::Increase( const Increase * i, Domain & d )
 	: value( i->value ), ground( 0 ) {
-	if ( i->ground ) ground = new Ground( d.funcs.get( i->ground->name ) );
+if ( i->ground ) ground = new Ground( d.funcs.get( i->ground->name ) );	
+    //if ( i->ground ) ground = dynamic_cast< Ground * >( i->ground->copy( d ) );
 }
 
 void Increase::PDDLPrint( std::ostream & s, unsigned indent, const TokenStruct< std::string > & ts, const Domain & d ) const {
