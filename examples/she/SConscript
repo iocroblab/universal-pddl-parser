@@ -1,8 +1,0 @@
-
-import glob
-
-Import('extra')
-
-program = extra.Program( "test.bin", glob.glob( "./*.cpp" ))
-
-extra.Alias( 'she', program )

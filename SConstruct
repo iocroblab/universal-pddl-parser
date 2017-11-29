@@ -42,8 +42,6 @@ extra.Append(LIBS=[File(os.path.abspath('./lib/libparser.a'))])
 
 # Register the different examples
 SConscript('tests/SConscript', exports='extra')
-SConscript('examples/she/SConscript', exports='extra')
-SConscript('examples/serialize/SConscript', exports='extra')
 SConscript('examples/parser/SConscript', exports='extra')
 
 # The compilation of the (static & dynamic) library
