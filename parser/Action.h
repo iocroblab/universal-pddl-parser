@@ -10,7 +10,7 @@ class Action : public ParamCond {
 public:
 
 	Condition *pre, *eff;
-  
+
 	Action( const std::string & s )
 		: ParamCond( s ), pre( 0 ), eff( 0 ) {}
 
@@ -62,6 +62,9 @@ public:
 
 	GroundVec deleteEffects();
 
+protected:
+
+	GroundVec getGroundsFromCondition( Condition * c, bool neg );
 };
 
 typedef std::vector< Action * > ActionVec;

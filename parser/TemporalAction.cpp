@@ -233,4 +233,12 @@ void TemporalAction::parse( Filereader & f, TokenStruct< std::string > & ts, Dom
 	f.assert_token( ")" );
 }
 
+GroundVec TemporalAction::addEndEffects() {
+	return getGroundsFromCondition( eff_e, false );
+}
+
+GroundVec TemporalAction::deleteEndEffects() {
+	return getGroundsFromCondition( eff_e, true );
+}
+
 } } // namespaces

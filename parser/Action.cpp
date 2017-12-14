@@ -76,31 +76,37 @@ CondVec Action::precons() {
 }
 
 GroundVec Action::addEffects() {
-	GroundVec adds;
-	And * a = dynamic_cast< And * >( eff );
-	for ( unsigned i = 0; a && i < a->conds.size(); ++i ) {
-		Ground * g = dynamic_cast< Ground * >( a->conds[i] );
-		if ( g ) adds.push_back( g );
-	}
-
-	Ground * g = dynamic_cast< Ground * >( eff );
-	if ( g ) adds.push_back( g );
-
-	return adds;
+	return getGroundsFromCondition( eff, false );
 }
 
 GroundVec Action::deleteEffects() {
-	GroundVec deletes;
-	And * a = dynamic_cast< And * >( eff );
+	return getGroundsFromCondition( eff, true );
+}
+
+GroundVec Action::getGroundsFromCondition( Condition * c, bool neg ) {
+	GroundVec grounds;
+	And * a = dynamic_cast< And * >( c );
 	for ( unsigned i = 0; a && i < a->conds.size(); ++i ) {
-		Not * n = dynamic_cast< Not * >( a->conds[i] );
-		if ( n ) deletes.push_back( n->cond );
+		if ( neg ) {
+			Not * n = dynamic_cast< Not * >( a->conds[i] );
+			if ( n ) grounds.push_back( n->cond );
+		}
+		else {
+			Ground * g = dynamic_cast< Ground * >( a->conds[i] );
+			if ( g ) grounds.push_back( g );
+		}
 	}
 
-	Not * n = dynamic_cast< Not * >( eff );
-	if ( n ) deletes.push_back( n->cond );
+	if ( neg ) {
+		Not * n = dynamic_cast< Not * >( c );
+		if ( n ) grounds.push_back( n->cond );
+	}
+	else {
+		Ground * g = dynamic_cast< Ground * >( c );
+		if ( g ) grounds.push_back( g );
+	}
 
-	return deletes;
+	return grounds;
 }
 
 } } // namespaces

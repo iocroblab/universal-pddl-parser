@@ -182,6 +182,9 @@ public:
 
 	void parse( Filereader & f, TokenStruct< std::string > & ts, Domain & d );
 
+	GroundVec addEndEffects();
+
+	GroundVec deleteEndEffects();
 };
 
 } } // namespaces
