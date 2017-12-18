@@ -2,8 +2,8 @@
 #pragma once
 
 #include "Ground.h"
-#include <parser/Condition.h>
-#include <parser/Function.h>
+#include "Condition.h"
+#include "Function.h"
 
 
 // RIGHT NOW ONLY INCREASES TOTAL-COST !!!
