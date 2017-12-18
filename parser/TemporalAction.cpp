@@ -233,7 +233,7 @@ void TemporalAction::parse( Filereader & f, TokenStruct< std::string > & ts, Dom
 	f.assert_token( ")" );
 }
 
-CondVec Action::preconsOverall() {
+CondVec TemporalAction::preconsOverall() {
 	And * a = dynamic_cast< And * >( pre_o );
 	if ( a ) return a->conds;
 
@@ -242,7 +242,7 @@ CondVec Action::preconsOverall() {
 	return precons;
 }
 
-CondVec Action::preconsEnd() {
+CondVec TemporalAction::preconsEnd() {
 	And * a = dynamic_cast< And * >( pre_e );
 	if ( a ) return a->conds;
 
