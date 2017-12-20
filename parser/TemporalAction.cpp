@@ -233,12 +233,16 @@ void TemporalAction::parse( Filereader & f, TokenStruct< std::string > & ts, Dom
 	f.assert_token( ")" );
 }
 
-CondVec TemporalAction::overallPreconditions() {
-	return getSubconditionsFromCondition( pre_o );
+GroundVec TemporalAction::preconsStart() {
+	return getGroundsFromCondition( pre, false );
 }
 
-CondVec TemporalAction::endPreconditions() {
-	return getSubconditionsFromCondition( pre_e );
+GroundVec TemporalAction::preconsOverall() {
+	return getGroundsFromCondition( pre_o, false );
+}
+
+GroundVec TemporalAction::preconsEnd() {
+	return getGroundsFromCondition( pre_e, false );
 }
 
 CondVec TemporalAction::endEffects() {
