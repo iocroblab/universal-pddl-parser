@@ -67,12 +67,11 @@ void Action::parse( Filereader & f, TokenStruct< std::string > & ts, Domain & d 
 }
 
 CondVec Action::precons() {
-	And * a = dynamic_cast< And * >( pre );
-	if ( a ) return a->conds;
+	return getSubconditionsFromCondition( pre );
+}
 
-	CondVec precons;
-	if ( pre ) precons.push_back( pre );
-	return precons;
+CondVec Action::effects() {
+	return getSubconditionsFromCondition( eff );
 }
 
 GroundVec Action::addEffects() {
@@ -81,6 +80,15 @@ GroundVec Action::addEffects() {
 
 GroundVec Action::deleteEffects() {
 	return getGroundsFromCondition( eff, true );
+}
+
+CondVec Action::getSubconditionsFromCondition( Condition * c ) {
+	And * a = dynamic_cast< And * >( c );
+	if ( a ) return a->conds;
+
+	CondVec subconds;
+	if ( c ) subconds.push_back( c );
+	return subconds;
 }
 
 GroundVec Action::getGroundsFromCondition( Condition * c, bool neg ) {

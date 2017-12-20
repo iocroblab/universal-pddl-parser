@@ -182,6 +182,12 @@ public:
 
 	void parse( Filereader & f, TokenStruct< std::string > & ts, Domain & d );
 
+	CondVec overallPreconditions();
+
+	CondVec endPreconditions();
+
+	CondVec endEffects();
+
 	GroundVec addEndEffects();
 
 	GroundVec deleteEndEffects();

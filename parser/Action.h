@@ -58,11 +58,15 @@ public:
 
 	CondVec precons();
 
+	CondVec effects();
+
 	GroundVec addEffects();
 
 	GroundVec deleteEffects();
 
 protected:
+
+	CondVec getSubconditionsFromCondition( Condition * c );
 
 	GroundVec getGroundsFromCondition( Condition * c, bool neg );
 };
