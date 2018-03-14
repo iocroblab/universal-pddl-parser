@@ -36,6 +36,11 @@ double FunctionExpression::evaluate( Instance & ins, const StringVec & par ) {
 }
 
 Expression * TemporalAction::parseDuration( Filereader & f, TokenStruct< std::string > & ts, Domain & d ) {
+	while ( f.getChar() == ' ' ) {
+		// ++f.c;
+		f.next();
+	}
+
 	if ( f.getChar() == '(' ) {
 		++f.c;
 		f.next();
@@ -44,6 +49,7 @@ Expression * TemporalAction::parseDuration( Filereader & f, TokenStruct< std::st
 			f.next();
 			Expression * left = parseDuration( f, ts, d );
 			Expression * right = parseDuration( f, ts, d );
+			f.next();
 			f.assert_token( ")" );
 			return new CompositeExpression( s[0], left, right );
 		}
