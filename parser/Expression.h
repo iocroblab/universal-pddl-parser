@@ -1,0 +1,137 @@
+
+#pragma once
+
+namespace parser { namespace pddl {
+
+class Instance;
+
+class Expression {
+
+public:
+
+	virtual ~Expression() {}
+	virtual std::string info() = 0;
+	virtual void PDDLPrint( std::ostream & s, const TokenStruct< std::string > & ts, const Domain & d ) const = 0;
+	virtual double evaluate() = 0;
+	virtual double evaluate( Instance & ins, const StringVec & par ) = 0;
+	virtual IntSet params() = 0;
+
+};
+
+class CompositeExpression : public Expression {
+
+public:
+
+	char op;
+	Expression * left;
+	Expression * right;
+
+	CompositeExpression( char c, Expression * l, Expression * r ) : op( c ), left( l ), right( r ) {}
+
+	~CompositeExpression() {
+		delete left;
+		delete right;
+	}
+
+	std::string info() {
+		std::ostringstream os;
+		os << "(" << op << " " << left->info() << " " << right->info() << ")";
+		return os.str();
+	}
+
+	void PDDLPrint( std::ostream & s, const TokenStruct< std::string > & ts, const Domain & d ) const override {
+		s << "( " << op << " ";
+		left->PDDLPrint( s, ts, d );
+		s << " ";
+		right->PDDLPrint( s, ts, d );
+		s << " )";
+	}
+
+	double compute( double x, double y ) {
+		double res = 0;
+		switch( op ) {
+		case '+': res = x + y; break;
+		case '-': res = x - y; break;
+		case '*': res = x * y; break;
+		case '/': res = ( y == 0 ? 0 : x / y ); break;
+		}
+		return res;
+	}
+
+	double evaluate() {
+		return compute( left->evaluate(), right->evaluate() );
+	}
+
+	double evaluate( Instance & ins, const StringVec & par ) {
+		return compute( left->evaluate( ins, par ), right->evaluate( ins, par ) );
+	}
+
+	IntSet params() {
+		IntSet lpars = left->params();
+		IntSet rpars = right->params();
+		lpars.insert( rpars.begin(), rpars.end() );
+		return lpars;
+	}
+};
+
+class FunctionExpression : public Expression {
+
+public:
+
+	ParamCond * fun;
+
+	FunctionExpression( ParamCond * c ) : fun( c ) {}
+
+	~FunctionExpression() {
+		delete fun;
+	}
+
+	std::string info() {
+		std::ostringstream os;
+		os << "(" << fun->name << fun->params << ")";
+		return os.str();
+	}
+
+	void PDDLPrint( std::ostream & s, const TokenStruct< std::string > & ts, const Domain & d ) const override;
+
+	double evaluate() { return 1; }
+
+	double evaluate( Instance & ins, const StringVec & par );
+
+	IntSet params() {
+		return IntSet( fun->params.begin(), fun->params.end() );
+	}
+
+};
+
+class ValueExpression : public Expression {
+
+public:
+
+	double value;
+
+	ValueExpression( double v ) : value( v ) {}
+
+	std::string info() {
+		std::ostringstream os;
+		os << value;
+		return os.str();
+	}
+
+	void PDDLPrint( std::ostream & s, const TokenStruct< std::string > & ts, const Domain & d ) const override {
+		s << value;
+	}
+
+	double evaluate() { return value; }
+
+	double evaluate( Instance & ins, const StringVec & par ) {
+		return value;
+	}
+
+	IntSet params() {
+		return IntSet();
+	}
+};
+
+
+} } // namespaces
