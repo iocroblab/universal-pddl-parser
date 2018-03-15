@@ -4,6 +4,7 @@
 An algorithm for parsing any planning problem in PDDL format.
 
 1. [Features](#features)
+1. [Project Structure](#project-structure)
 1. [Installation](#installation)
 1. [Related Projects](#related-projects)
 
