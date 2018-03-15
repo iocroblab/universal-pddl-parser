@@ -36,11 +36,8 @@ double FunctionExpression::evaluate( Instance & ins, const StringVec & par ) {
 }
 
 Expression * TemporalAction::parseDuration( Filereader & f, TokenStruct< std::string > & ts, Domain & d ) {
-	while ( f.getChar() == ' ' ) {
-		// ++f.c;
-		f.next();
-	}
-
+	f.next();
+    
 	if ( f.getChar() == '(' ) {
 		++f.c;
 		f.next();
