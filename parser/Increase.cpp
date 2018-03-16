@@ -28,7 +28,7 @@ void Increase::PDDLPrint( std::ostream & s, unsigned indent, const TokenStruct< 
 		incrementedGround->PDDLPrint( s, 0, ts, d );
 	}
 	else {
-		s << " ( TOTAL-COST )";
+		s << "( TOTAL-COST )";
 	}
 
 	s << " ";
