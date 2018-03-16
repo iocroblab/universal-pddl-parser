@@ -48,7 +48,7 @@ Expression * createExpression( Filereader & f, TokenStruct< std::string > & ts, 
 			Expression * right = createExpression( f, ts, d );
 			f.next();
 			f.assert_token( ")" );
-			return new CompositeExpression( s[0], left, right );
+			return new CompositeExpression( s, left, right );
 		}
 		else {
 			f.c -= s.size();

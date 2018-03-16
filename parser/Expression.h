@@ -30,11 +30,11 @@ class CompositeExpression : public Expression {
 
 public:
 
-	char op;
+	std::string op;
 	Expression * left;
 	Expression * right;
 
-	CompositeExpression( char c, Expression * l, Expression * r ) : op( c ), left( l ), right( r ) {}
+	CompositeExpression( const std::string& c, Expression * l, Expression * r ) : op( c ), left( l ), right( r ) {}
 
 	~CompositeExpression() {
 		delete left;
@@ -57,12 +57,12 @@ public:
 
 	double compute( double x, double y ) {
 		double res = 0;
-		switch( op ) {
-		case '+': res = x + y; break;
-		case '-': res = x - y; break;
-		case '*': res = x * y; break;
-		case '/': res = ( y == 0 ? 0 : x / y ); break;
-		}
+
+		if ( op == "+" ) res = x + y;
+		else if ( op == "-" ) res = x - y;
+		else if ( op == "*" ) res = x * y;
+		else if ( op == "/" ) res = ( y == 0 ? 0 : x / y );
+
 		return res;
 	}
 
