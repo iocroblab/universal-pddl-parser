@@ -12,13 +12,16 @@ class Expression : public Condition {
 public:
 
 	virtual ~Expression() {}
-	virtual std::string info() = 0;
+	virtual std::string info() const = 0;
 	virtual double evaluate() = 0;
 	virtual double evaluate( Instance & ins, const StringVec & par ) = 0;
 	virtual IntSet params() = 0;
 
 	// inherit
-	virtual void print( std::ostream & stream ) const {}
+	virtual void print( std::ostream & stream ) const {
+		stream << info();
+	}
+
 	virtual void parse( Filereader & f, TokenStruct< std::string > & ts, Domain & d ) {}
 	virtual void addParams( int m, unsigned n ) {}
 };
@@ -38,7 +41,7 @@ public:
 		delete right;
 	}
 
-	std::string info() {
+	std::string info() const {
 		std::ostringstream os;
 		os << "(" << op << " " << left->info() << " " << right->info() << ")";
 		return os.str();
@@ -97,7 +100,7 @@ public:
 		delete fun;
 	}
 
-	std::string info() {
+	std::string info() const {
 		std::ostringstream os;
 		os << "(" << fun->name << fun->params << ")";
 		return os.str();
@@ -126,7 +129,7 @@ public:
 
 	ValueExpression( double v ) : value( v ) {}
 
-	std::string info() {
+	std::string info() const {
 		std::ostringstream os;
 		os << value;
 		return os.str();
@@ -148,10 +151,6 @@ public:
 
 	Condition * copy( Domain & d ) {
 		return new ValueExpression( value );
-	}
-
-	void print( std::ostream & s ) const {
-		s << value;
 	}
 };
 
