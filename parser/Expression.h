@@ -79,7 +79,9 @@ public:
 	}
 
 	Condition * copy( Domain & d ) {
-		return nullptr;
+		Expression * cleft = dynamic_cast< Expression * >( left->copy( d ) );
+		Expression * cright = dynamic_cast< Expression * >( right->copy( d ) );
+		return new CompositeExpression( op, cleft, cright );
 	}
 };
 
@@ -112,7 +114,7 @@ public:
 	}
 
 	Condition * copy( Domain & d ) {
-		return nullptr;
+		return new FunctionExpression( dynamic_cast< ParamCond * >( fun->copy( d ) ) );
 	}
 };
 
