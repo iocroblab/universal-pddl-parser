@@ -154,6 +154,33 @@ public:
 	}
 };
 
+class DurationExpression : public Expression {
+
+	void PDDLPrint( std::ostream & s, unsigned indent, const TokenStruct< std::string > & ts, const Domain & d ) const override {
+		s << "?DURATION";
+	}
+
+	std::string info() const {
+		return "?DURATION";
+	}
+
+	double evaluate() {
+		return -1;
+	}
+
+	double evaluate( Instance & ins, const StringVec & par ) {
+		return evaluate();
+	}
+
+	IntSet params() {
+		return IntSet();
+	}
+
+	Condition * copy( Domain & d ) {
+		return new DurationExpression();
+	}
+};
+
 Expression * createExpression( Filereader & f, TokenStruct< std::string > & ts, Domain & d );
 
 } } // namespaces

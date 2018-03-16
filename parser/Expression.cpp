@@ -63,6 +63,10 @@ Expression * createExpression( Filereader & f, TokenStruct< std::string > & ts, 
 			return new FunctionExpression( c );
 		}
 	}
+	else if ( f.getChar() == '?' ) {  // just support DURATION if starts with ?
+		f.assert_token( "?DURATION" );
+		return new DurationExpression();
+	}
 	else {
 		double d;
 		std::string s = f.getToken();
