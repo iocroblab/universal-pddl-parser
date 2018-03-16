@@ -4,44 +4,11 @@
 namespace parser { namespace pddl {
 
 Expression * TemporalAction::parseDuration( Filereader & f, TokenStruct< std::string > & ts, Domain & d ) {
-	f.next();
-
-	if ( f.getChar() == '(' ) {
-		++f.c;
-		f.next();
-		std::string s = f.getToken();
-		if ( s == "+" || s == "-" || s == "*" || s == "/" ) {
-			f.next();
-			Expression * left = parseDuration( f, ts, d );
-			Expression * right = parseDuration( f, ts, d );
-			f.next();
-			f.assert_token( ")" );
-			return new CompositeExpression( s[0], left, right );
-		}
-		else {
-			f.c -= s.size();
-			Function * fun = d.funcs.get( f.getToken( d.funcs ) );
-			ParamCond * c = new Lifted( fun );
-			for ( unsigned i = 0; i < fun->params.size(); ++i ) {
-				f.next();
-				c->params[i] = ts.index( f.getToken( ts ) );
-			}
-			f.next();
-			f.assert_token( ")" );
-			return new FunctionExpression( c );
-		}
-	}
-	else {
-		double d;
-		std::string s = f.getToken();
-		std::istringstream is( s );
-		is >> d;
-		return new ValueExpression( d );
-	}
+	return createExpression( f, ts, d );
 }
 
 void TemporalAction::printCondition( std::ostream & s, const TokenStruct< std::string > & ts, const Domain & d,
-                                     const std::string & t, And * a ) const {
+									 const std::string & t, And * a ) const {
 	for ( unsigned i = 0; a && i < a->conds.size(); ++i ) {
 		s << "\t\t( " << t << " ";
 		a->conds[i]->PDDLPrint( s, 0, ts, d );
@@ -59,7 +26,7 @@ void TemporalAction::PDDLPrint( std::ostream & s, unsigned indent, const TokenSt
 	printParams( 0, s, astruct, d );
 
 	s << "  :DURATION ( = ?DURATION ";
-	if ( durationExpr ) durationExpr->PDDLPrint( s, astruct, d );
+	if ( durationExpr ) durationExpr->PDDLPrint( s, 0, astruct, d );
 	else s << "1";
 	s << " )\n";
 

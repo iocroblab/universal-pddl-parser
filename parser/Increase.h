@@ -4,9 +4,8 @@
 #include "Ground.h"
 #include "Condition.h"
 #include "Function.h"
+#include "Expression.h"
 
-
-// RIGHT NOW ONLY INCREASES TOTAL-COST !!!
 
 namespace parser { namespace pddl {
 
@@ -14,32 +13,30 @@ class Increase : public Condition {
 
 public:
 
-	int value;
-	Ground * ground;
+	Ground * incrementedGround;  // if null -> total-cost
+	Expression * incrementExpr;  // the expression by which we increment
 
-	Increase( int val = 1 )
-		: value( val ), ground( 0 ) {}
+	Increase( int val = 1 );
 
-	Increase( Function * f, const IntVec & p = IntVec() )
-		: value( 0 ), ground( new Ground( f, p ) ) {}
+	Increase( Function * f, const IntVec & p = IntVec() );
 
 	Increase( const Increase * i, Domain & d );
 
 	~Increase() {
-		if ( ground ) delete ground;
+		if ( incrementedGround ) delete incrementedGround;
+		if ( incrementExpr ) delete incrementExpr;
 	}
 
 	void print( std::ostream & s ) const {
 		s << "Increase ";
-		if ( ground ) ground->print( s );
-		else s << value;
+		if ( incrementedGround ) incrementedGround->print( s );
+		if ( incrementExpr ) incrementExpr->print( s );
 		s << "\n";
 	}
 
 	void PDDLPrint( std::ostream & s, unsigned indent, const TokenStruct< std::string > & ts, const Domain & d ) const override;
 
 	void parse( Filereader & f, TokenStruct< std::string > & ts, Domain & d );
-
 
 	void addParams( int m, unsigned n ) {}
 

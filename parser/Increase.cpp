@@ -3,33 +3,58 @@
 
 namespace parser { namespace pddl {
 
-Increase::Increase( const Increase * i, Domain & d )
-	: value( i->value ), ground( 0 ) {
-	if ( i->ground ) ground = dynamic_cast< Ground * >( i->ground->copy( d ) );
+Increase::Increase( int val )
+	: incrementedGround( 0 ), incrementExpr( new ValueExpression( val ) ) {}
+
+Increase::Increase( Function * f, const IntVec & p ) {
+	incrementExpr = new FunctionExpression( new Ground( f, p ) );
+}
+
+Increase::Increase( const Increase * i, Domain & d ) {
+	if ( i->incrementedGround ) {
+		incrementedGround = dynamic_cast< Ground * >( i->incrementedGround->copy( d ) );
+	}
+
+	if ( i->incrementExpr ) {
+		incrementExpr = dynamic_cast< Expression * >( i->incrementExpr->copy( d ) );
+	}
 }
 
 void Increase::PDDLPrint( std::ostream & s, unsigned indent, const TokenStruct< std::string > & ts, const Domain & d ) const {
 	tabindent( s, indent );
-	s << "( INCREASE ( TOTAL-COST ) ";
-	if ( ground ) ground->PDDLPrint( s, 0, ts, d );
-	else s << ( int )value;
+	s << "( INCREASE ";
+
+	if ( incrementedGround ) {
+		incrementedGround->PDDLPrint( s, 0, ts, d );
+	}
+	else {
+		s << " ( TOTAL-COST )";
+	}
+
+	s << " ";
+	incrementExpr->PDDLPrint( s, 0, ts, d );
+
 	s << " )";
 }
 
 void Increase::parse( Filereader & f, TokenStruct< std::string > & ts, Domain & d ) {
 	f.next();
+
 	f.assert_token( "(" );
-	f.assert_token( "TOTAL-COST" );
-	f.assert_token( ")" );
-	if ( f.getChar() == '(' ) {
-		f.assert_token( "(" );
-		ground = new Ground( d.funcs.get( f.getToken( d.funcs ) ) );
-		ground->parse( f, ts, d );
+
+	std::string increasedFunction = f.getToken();
+	if ( increasedFunction == "TOTAL-COST" ) {
+		f.assert_token( ")" );
 	}
 	else {
-		std::stringstream ss( f.getToken() );
-		ss >> value;
+		incrementedGround = new Ground( d.funcs.get( increasedFunction ) );
+		incrementedGround->parse( f, ts, d );
 	}
+
+	f.next();
+
+	incrementExpr = createExpression( f, ts, d );
+
 	f.next();
 	f.assert_token( ")" );
 }

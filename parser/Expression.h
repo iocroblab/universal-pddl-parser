@@ -1,21 +1,26 @@
 
 #pragma once
 
+#include "Condition.h"
+
 namespace parser { namespace pddl {
 
 class Instance;
 
-class Expression {
+class Expression : public Condition {
 
 public:
 
 	virtual ~Expression() {}
 	virtual std::string info() = 0;
-	virtual void PDDLPrint( std::ostream & s, const TokenStruct< std::string > & ts, const Domain & d ) const = 0;
 	virtual double evaluate() = 0;
 	virtual double evaluate( Instance & ins, const StringVec & par ) = 0;
 	virtual IntSet params() = 0;
 
+	// inherit
+	virtual void print( std::ostream & stream ) const {}
+	virtual void parse( Filereader & f, TokenStruct< std::string > & ts, Domain & d ) {}
+	virtual void addParams( int m, unsigned n ) {}
 };
 
 class CompositeExpression : public Expression {
@@ -39,11 +44,11 @@ public:
 		return os.str();
 	}
 
-	void PDDLPrint( std::ostream & s, const TokenStruct< std::string > & ts, const Domain & d ) const override {
+	void PDDLPrint( std::ostream & s, unsigned indent, const TokenStruct< std::string > & ts, const Domain & d ) const override {
 		s << "( " << op << " ";
-		left->PDDLPrint( s, ts, d );
+		left->PDDLPrint( s, indent, ts, d );
 		s << " ";
-		right->PDDLPrint( s, ts, d );
+		right->PDDLPrint( s, indent, ts, d );
 		s << " )";
 	}
 
@@ -72,6 +77,10 @@ public:
 		lpars.insert( rpars.begin(), rpars.end() );
 		return lpars;
 	}
+
+	Condition * copy( Domain & d ) {
+		return nullptr;
+	}
 };
 
 class FunctionExpression : public Expression {
@@ -92,7 +101,7 @@ public:
 		return os.str();
 	}
 
-	void PDDLPrint( std::ostream & s, const TokenStruct< std::string > & ts, const Domain & d ) const override;
+	void PDDLPrint( std::ostream & s, unsigned indent, const TokenStruct< std::string > & ts, const Domain & d ) const override;
 
 	double evaluate() { return 1; }
 
@@ -102,6 +111,9 @@ public:
 		return IntSet( fun->params.begin(), fun->params.end() );
 	}
 
+	Condition * copy( Domain & d ) {
+		return nullptr;
+	}
 };
 
 class ValueExpression : public Expression {
@@ -118,7 +130,7 @@ public:
 		return os.str();
 	}
 
-	void PDDLPrint( std::ostream & s, const TokenStruct< std::string > & ts, const Domain & d ) const override {
+	void PDDLPrint( std::ostream & s, unsigned indent, const TokenStruct< std::string > & ts, const Domain & d ) const override {
 		s << value;
 	}
 
@@ -131,7 +143,16 @@ public:
 	IntSet params() {
 		return IntSet();
 	}
+
+	Condition * copy( Domain & d ) {
+		return new ValueExpression( value );
+	}
+
+	void print( std::ostream & s ) const {
+		s << value;
+	}
 };
 
+Expression * createExpression( Filereader & f, TokenStruct< std::string > & ts, Domain & d );
 
 } } // namespaces

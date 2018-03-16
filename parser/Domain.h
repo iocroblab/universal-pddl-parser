@@ -68,7 +68,7 @@ public:
 		for ( unsigned i = 0; i < derived.size(); ++i )
 			delete derived[i];
 		for ( unsigned i = 0; i < tasks.size(); ++i )
-		 	delete tasks[i];
+			delete tasks[i];
 	}
 
 	virtual void parse( const std::string & s ) {
@@ -399,7 +399,7 @@ public:
 
 	// Add an "OR" precondition to the action with name "act"
 	void addOrPre( const std::string & act, const std::string & pred1, const std::string & pred2,
-	               const IntVec & params1 = IntVec(), const IntVec & params2 = IntVec() ) {
+				   const IntVec & params1 = IntVec(), const IntVec & params2 = IntVec() ) {
 		Or * o = new Or;
 		o->first = ground( pred1, params1 );
 		o->second = ground( pred2, params2 );
@@ -555,6 +555,8 @@ public:
 		if ( temp ) os << " :DURATIVE-ACTIONS";
 		if ( nondet ) os << " :NON-DETERMINISTIC";
 		if ( universal ) os << " :UNIVERSAL-PRECONDITIONS";
+		if ( unfactored ) os << " :UNFACTORED-PRIVACY";
+		if ( fluents ) os << " :FLUENTS";
 		os << " )\n";
 		return os;
 	}

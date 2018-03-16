@@ -3,7 +3,7 @@
 
 namespace parser { namespace pddl {
 
-void FunctionExpression::PDDLPrint( std::ostream & s, const TokenStruct< std::string > & ts, const Domain & d ) const {
+void FunctionExpression::PDDLPrint( std::ostream & s, unsigned indent, const TokenStruct< std::string > & ts, const Domain & d ) const {
 	ParamCond * c = d.funcs[d.funcs.index( fun->name )];
 
 	s << "( " << fun->name;
@@ -34,4 +34,42 @@ double FunctionExpression::evaluate( Instance & ins, const StringVec & par ) {
 			return ((GroundFunc<double> *)ins.init[i])->value;
 	return 1;
 }
+
+Expression * createExpression( Filereader & f, TokenStruct< std::string > & ts, Domain & d ) {
+	f.next();
+
+	if ( f.getChar() == '(' ) {
+		++f.c;
+		f.next();
+		std::string s = f.getToken();
+		if ( s == "+" || s == "-" || s == "*" || s == "/" ) {
+			f.next();
+			Expression * left = createExpression( f, ts, d );
+			Expression * right = createExpression( f, ts, d );
+			f.next();
+			f.assert_token( ")" );
+			return new CompositeExpression( s[0], left, right );
+		}
+		else {
+			f.c -= s.size();
+			Function * fun = d.funcs.get( f.getToken( d.funcs ) );
+			ParamCond * c = new Lifted( fun );
+			for ( unsigned i = 0; i < fun->params.size(); ++i ) {
+				f.next();
+				c->params[i] = ts.index( f.getToken( ts ) );
+			}
+			f.next();
+			f.assert_token( ")" );
+			return new FunctionExpression( c );
+		}
+	}
+	else {
+		double d;
+		std::string s = f.getToken();
+		std::istringstream is( s );
+		is >> d;
+		return new ValueExpression( d );
+	}
+}
+
 } }
