@@ -10,7 +10,7 @@
 #include "Forall.h"
 #include "Function.h"
 #include "GroundFunc.h"
-#include "Increase.h"
+#include "FunctionModifier.h"
 
 #include "Not.h"
 #include "Oneof.h"
@@ -100,7 +100,7 @@ public:
 		else if ( t == "ACTION" ) parseAction( f );
 		else if ( t == "DURATIVE-ACTION" ) parseDurativeAction( f );
 		else if ( t == "DERIVED" ) parseDerived( f );
-//			else if ( t == "AXIOM" ) parseAxiom( f );
+//		else if ( t == "AXIOM" ) parseAxiom( f );
 		else return false; // Unknown block type
 
 		return true;
@@ -571,6 +571,7 @@ public:
 		if ( s == "EXISTS" ) return new Exists;
 		if ( s == "FORALL" ) return new Forall;
 		if ( s == "INCREASE" ) return new Increase;
+		if ( s == "DECREASE" ) return new Decrease;
 		if ( s == "NOT" ) return new Not;
 		if ( s == "ONEOF" ) return new Oneof;
 		if ( s == "OR" ) return new Or;
