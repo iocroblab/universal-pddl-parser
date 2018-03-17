@@ -576,6 +576,7 @@ public:
 		if ( s == "ONEOF" ) return new Oneof;
 		if ( s == "OR" ) return new Or;
 		if ( s == "WHEN" ) return new When;
+		if ( s == ">=" || s == ">" || s == "<=" || s == "<" ) return new CompositeExpression( s );
 
 		int i = preds.index( s );
 		if ( i >= 0 ) return new Ground( preds[i] );
