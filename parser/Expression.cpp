@@ -43,12 +43,9 @@ Expression * createExpression( Filereader & f, TokenStruct< std::string > & ts, 
 		f.next();
 		std::string s = f.getToken();
 		if ( s == "+" || s == "-" || s == "*" || s == "/" ) {
-			f.next();
-			Expression * left = createExpression( f, ts, d );
-			Expression * right = createExpression( f, ts, d );
-			f.next();
-			f.assert_token( ")" );
-			return new CompositeExpression( s, left, right );
+			CompositeExpression * ce = new CompositeExpression( s );
+			ce->parse( f, ts, d );
+			return ce;
 		}
 		else {
 			f.c -= s.size();

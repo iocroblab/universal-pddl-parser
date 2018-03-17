@@ -26,6 +26,8 @@ public:
 	virtual void addParams( int m, unsigned n ) {}
 };
 
+Expression * createExpression( Filereader & f, TokenStruct< std::string > & ts, Domain & d );
+
 class CompositeExpression : public Expression {
 
 public:
@@ -34,11 +36,21 @@ public:
 	Expression * left;
 	Expression * right;
 
+	CompositeExpression( const std::string& c ) : op( c ) {}
+
 	CompositeExpression( const std::string& c, Expression * l, Expression * r ) : op( c ), left( l ), right( r ) {}
 
 	~CompositeExpression() {
 		delete left;
 		delete right;
+	}
+
+	void parse( Filereader & f, TokenStruct< std::string > & ts, Domain & d ) {
+		f.next();
+		left = createExpression( f, ts, d );
+		right = createExpression( f, ts, d );
+		f.next();
+		f.assert_token( ")" );
 	}
 
 	std::string info() const {
@@ -180,7 +192,5 @@ class DurationExpression : public Expression {
 		return new DurationExpression();
 	}
 };
-
-Expression * createExpression( Filereader & f, TokenStruct< std::string > & ts, Domain & d );
 
 } } // namespaces
