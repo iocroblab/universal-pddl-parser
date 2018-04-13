@@ -32,7 +32,6 @@ public:
 	bool typed, cons, costs;            // whether domain is typed, has constants, has costs
 	bool temp, nondet, neg;             // whether domain is temporal, is non-deterministic, has negative precons
 	bool universal;                     // whether domain has universal precons
-	bool unfactored;                    // whether domain has unfactored privacy
 	bool fluents;                       // whether domains contains fluents
 
 	TokenStruct< Type * > types;        // types
@@ -45,8 +44,7 @@ public:
 	Domain()
 		: equality( false ), strips( false ), adl( false ), condeffects( false )
 		, typed( false ), cons( false ), costs( false ), temp( false )
-		, nondet( false ), neg( false ), universal( false ), unfactored( false )
-		, fluents( false )
+		, nondet( false ), neg( false ), universal( false ), fluents( false )
 	{
 		types.insert( new Type( "OBJECT" ) ); // Type 0 is always "OBJECT", whether the domain is typed or not
 	}
@@ -134,7 +132,6 @@ public:
 		else if ( s == "DURATIVE-ACTIONS" ) temp = true;
 		else if ( s == "NON-DETERMINISTIC" ) nondet = true;
 		else if ( s == "UNIVERSAL-PRECONDITIONS" ) universal = true;
-		else if ( s == "UNFACTORED-PRIVACY" ) unfactored = true;
 		else if ( s == "FLUENTS" ) fluents = true;
 		else return false; // Unknown requirement
 
@@ -562,7 +559,6 @@ public:
 		if ( temp ) os << " :DURATIVE-ACTIONS";
 		if ( nondet ) os << " :NON-DETERMINISTIC";
 		if ( universal ) os << " :UNIVERSAL-PRECONDITIONS";
-		if ( unfactored ) os << " :UNFACTORED-PRIVACY";
 		if ( fluents ) os << " :FLUENTS";
 		os << " )\n";
 		return os;
