@@ -30,7 +30,7 @@ public:
 	bool equality;                      // whether domain supports equality
 	bool strips, adl, condeffects;      // whether domain is STRIPS, ADL and/or has conditional effects
 	bool typed, cons, costs;            // whether domain is typed, has constants, has costs
-	bool temp, nondet, neg;             // whether domain is temporal, is non-deterministic, has negative precons
+	bool temp, nondet, neg, disj;       // whether domain is temporal, is non-deterministic, has negative precons, has disjunctive preconditions
 	bool universal;                     // whether domain has universal precons
 	bool fluents;                       // whether domains contains fluents
 
@@ -133,6 +133,7 @@ public:
 		else if ( s == "NON-DETERMINISTIC" ) nondet = true;
 		else if ( s == "UNIVERSAL-PRECONDITIONS" ) universal = true;
 		else if ( s == "FLUENTS" ) fluents = true;
+		else if ( s == "DISJUNCTIVE-PRECONDITIONS" ) disj = true;
 		else return false; // Unknown requirement
 
 		return true;
@@ -560,6 +561,7 @@ public:
 		if ( nondet ) os << " :NON-DETERMINISTIC";
 		if ( universal ) os << " :UNIVERSAL-PRECONDITIONS";
 		if ( fluents ) os << " :FLUENTS";
+		if ( disj ) os << " :DISJUNCTIVE-PRECONDITIONS";
 		os << " )\n";
 		return os;
 	}
