@@ -44,7 +44,8 @@ public:
 	Domain()
 		: equality( false ), strips( false ), adl( false ), condeffects( false )
 		, typed( false ), cons( false ), costs( false ), temp( false )
-		, nondet( false ), neg( false ), universal( false ), fluents( false )
+		, nondet( false ), neg( false ), disj( false ), universal( false )
+		, fluents( false )
 	{
 		types.insert( new Type( "OBJECT" ) ); // Type 0 is always "OBJECT", whether the domain is typed or not
 	}
