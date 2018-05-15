@@ -45,6 +45,7 @@ void FunctionModifier::parse( Filereader & f, TokenStruct< std::string > & ts, D
 
 	std::string increasedFunction = f.getToken();
 	if ( increasedFunction == "TOTAL-COST" ) {
+ 		f.next();
 		f.assert_token( ")" );
 	}
 	else {
