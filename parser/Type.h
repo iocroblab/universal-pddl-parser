@@ -116,6 +116,14 @@ public:
 		return total;
 	}
 
+	unsigned noConstants() {
+		unsigned total = constants.size();
+		for ( unsigned i = 0; i < subtypes.size(); ++i ) {
+			total += subtypes[i]->noConstants();
+		}
+		return total;
+	}
+
 	virtual Type * copy() {
 		return new Type( this );
 	}
