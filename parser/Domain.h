@@ -33,6 +33,7 @@ public:
 	bool temp, nondet, neg, disj;       // whether domain is temporal, is non-deterministic, has negative precons, has disjunctive preconditions
 	bool universal;                     // whether domain has universal precons
 	bool fluents;                       // whether domains contains fluents
+	bool derivedpred;                   // whether domain contains derived predicates
 
 	TokenStruct< Type * > types;        // types
 	TokenStruct< Lifted * > preds;      // predicates
@@ -45,7 +46,7 @@ public:
 		: equality( false ), strips( false ), adl( false ), condeffects( false )
 		, typed( false ), cons( false ), costs( false ), temp( false )
 		, nondet( false ), neg( false ), disj( false ), universal( false )
-		, fluents( false )
+		, fluents( false ), derivedpred( false )
 	{
 		types.insert( new Type( "OBJECT" ) ); // Type 0 is always "OBJECT", whether the domain is typed or not
 	}
@@ -135,6 +136,7 @@ public:
 		else if ( s == "UNIVERSAL-PRECONDITIONS" ) universal = true;
 		else if ( s == "FLUENTS" ) fluents = true;
 		else if ( s == "DISJUNCTIVE-PRECONDITIONS" ) disj = true;
+		else if ( s == "DERIVED-PREDICATES" ) derivedpred = true;
 		else return false; // Unknown requirement
 
 		return true;
@@ -563,6 +565,7 @@ public:
 		if ( universal ) os << " :UNIVERSAL-PRECONDITIONS";
 		if ( fluents ) os << " :FLUENTS";
 		if ( disj ) os << " :DISJUNCTIVE-PRECONDITIONS";
+		if ( derivedpred ) os << " :DERIVED-PREDICATES";
 		os << " )\n";
 		return os;
 	}
