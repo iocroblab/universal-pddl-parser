@@ -28,3 +28,5 @@ set_target_properties( pddl_parser_shared PROPERTIES
 add_library(pddl_parser_static STATIC ${PARSER_SRC})
 set_target_properties( pddl_parser_static PROPERTIES
   OUTPUT_NAME pddl_parser)
+
+install(TARGETS pddl_parser_shared pddl_parser_static DESTINATION ${CMAKE_INSTALL_LIBDIR})
