@@ -1,7 +1,7 @@
 
 #include <iostream>
 
-#include <parser/Instance.h>
+#include <pddl_parser/Instance.h>
 
 using namespace parser::pddl;
 
