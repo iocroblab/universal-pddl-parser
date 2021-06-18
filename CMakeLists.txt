@@ -25,7 +25,9 @@ add_definitions(-Wall -Wextra -Wpedantic)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-include_directories(${PROJECT_SOURCE_DIR}/include/universal-pddl-parser)
+include_directories(${PROJECT_SOURCE_DIR}/include/pddl_parser)
+install(DIRECTORY ${PROJECT_SOURCE_DIR}/include/pddl_parser DESTINATION include)
+
 add_subdirectory(parser)
 
 ##############################################################################
@@ -37,7 +39,7 @@ set(LIBRARY_INSTALL_DIR "${CMAKE_INSTALL_LIBDIR}")
 
 configure_package_config_file(
   "${CMAKE_SOURCE_DIR}/parser/universal-pddl-parser.cmake.in"
-  "${CMAKE_BINARY_DIR}/universal-pddl-parser.cmake"
+  "${CMAKE_BINARY_DIR}/universal-pddl-parserConfig.cmake"
   INSTALL_DESTINATION  ${CMAKE_INSTALL_LIBDIR}/cmake/universal-pddl-parser
   PATH_VARS INCLUDE_INSTALL_DIR LIBRARY_INSTALL_DIR)
 
