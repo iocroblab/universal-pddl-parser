@@ -1,0 +1,13 @@
+# - Config file for the allegro_hand package
+# It defines the following variables
+#  UNIVERSAL-PDDL-PARSER_INCLUDE_DIRS - include directories for universal-pddl-parser
+#  UNIVERSAL-PDDL-PARSER_DEFINITIONS - definitions to use with the universal-pddl-parser Lib
+#  UNIVERSAL-PDDL-PARSER_LIBRARY    - library to link against universal-pddl-parser Lib
+#  UNIVERSAL-PDDL-PARSER_LIBRARY_STATIC - static version of the library universal-pddl-parser
+
+@PACKAGE_INIT@
+
+set_and_check(UNIVERSAL-PDDL-PARSER_INCLUDE_DIR @PACKAGE_INCLUDE_INSTALL_DIR@ )
+set(UNIVERSAL-PDDL-PARSER_INCLUDE_DIRS ${UNIVERSAL-PDDL-PARSER_INCLUDE_DIR} )
+set(UNIVERSAL-PDDL-PARSER_LIBRARY pddl_parser)
+set(UNIVERSAL-PDDL-PARSER_LIBRARY_STATIC pddl_parser.a)
