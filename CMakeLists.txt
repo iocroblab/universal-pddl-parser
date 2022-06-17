@@ -67,7 +67,7 @@ add_subdirectory (examples)
 ## Install ##
 #############
 install(
-  DIRECTORY include/${PROJECT_NAME}
+  DIRECTORY include/pddl_parser
   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/
 )
 
