@@ -3,14 +3,11 @@
 #  UNIVERSAL_PDDL_PARSER_INCLUDE_DIRS - include directories for universal-pddl-parser
 #  UNIVERSAL_PDDL_PARSER_DEFINITIONS - definitions to use with the universal-pddl-parser Lib
 #  UNIVERSAL_PDDL_PARSER_LIBRARY    - library to link against universal-pddl-parser Lib
-#  UNIVERSAL_PDDL_PARSER_LIBRARY_STATIC - static version of the library universal-pddl-parser
 
 @PACKAGE_INIT@
 
-set_and_check(UNIVERSAL-PDDL-PARSER_INCLUDE_DIR @PACKAGE_INCLUDE_INSTALL_DIR@ )
+set_and_check(UNIVERSAL_PDDL_PARSER_INCLUDE_DIR @PACKAGE_INCLUDE_INSTALL_DIR@ )
 set(UNIVERSAL_PDDL_PARSER_INCLUDE_DIRS ${UNIVERSAL_PDDL_PARSER_INCLUDE_DIR} )
-set(UNIVERSAL_PDDL_PARSER_LIBRARY pddl_parser)
-set(UNIVERSAL_PDDL_PARSER_LIBRARY_STATIC pddl_parser.a)
 
 # Our library dependencies (contains definitions for IMPORTED targets)
 include("${CMAKE_CURRENT_LIST_DIR}/@PROJECT_NAME@Targets.cmake")
