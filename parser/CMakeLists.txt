@@ -19,14 +19,9 @@ set(PARSER_SRC Action.cpp
 	TypeGround.cpp
 	When.cpp)
 
-add_library(pddl_parser_shared SHARED ${PARSER_SRC})
-set_target_properties( pddl_parser_shared PROPERTIES
+add_library(universal_pddl_parser SHARED ${PARSER_SRC})
+set_target_properties( universal_pddl_parser PROPERTIES
   SOVERSION "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}"
   VERSION "${PROJECT_VERSION}"
-  OUTPUT_NAME pddl_parser)
+  OUTPUT_NAME universal_pddl_parser)
 
-add_library(pddl_parser_static STATIC ${PARSER_SRC})
-set_target_properties( pddl_parser_static PROPERTIES
-  OUTPUT_NAME pddl_parser)
-
-install(TARGETS pddl_parser_shared pddl_parser_static DESTINATION ${CMAKE_INSTALL_LIBDIR})
