@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>universal_pddl_parser</name>
+  <version>0.0.1</version>
+  <description>An algorithm for parsing any planning problem in PDDL format. ROS catkin skin</description>
+
+  <maintainer email="leopold.palomo@upc.edu">Leopold Palomo-Avellaneda</maintainer>
+  <license>GPLv3</license>
+
+  <url type="website">https://github.com/aig-upf/universal-pddl-parser</url>
+
+  <author email="anders.jonsson@upf.edu">Anders Jonsson</author>
+  <author email="javier.segovia@upf.edu">Javier Segovia</author>
+  <author email="guillem.frances@gmail.com">Guillem Francès</author>
+
+  <buildtool_depend>cmake</buildtool_depend>
+  <export>
+      <build_type>cmake</build_type>
+  </export>
+</package>
