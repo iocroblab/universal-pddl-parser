@@ -51,8 +51,6 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 include_directories(${PROJECT_SOURCE_DIR}/include/pddl_parser)
-install(DIRECTORY ${PROJECT_SOURCE_DIR}/include/pddl_parser DESTINATION include)
-
 add_subdirectory(parser)
 
 
