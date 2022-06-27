@@ -84,10 +84,14 @@ install(
 # Export the package for use from the build-tree
 # (this registers the build-tree with a global CMake-registry)
 
+set(INCLUDE_INSTALL_DIR ${CMAKE_INSTALL_INCLUDEDIR})
+
 # Create the ${PROJECT_NAME}Config.cmake.
-configure_file(
+configure_package_config_file(
   ${PROJECT_SOURCE_DIR}/parser/${PROJECT_NAME}Config.cmake.in
-  "${PROJECT_BINARY_DIR}/${CMAKE_FILES_DIRECTORY}/${PROJECT_NAME}Config.cmake" @ONLY
+  "${PROJECT_BINARY_DIR}/${CMAKE_FILES_DIRECTORY}/${PROJECT_NAME}Config.cmake"
+  PATH_VARS INCLUDE_INSTALL_DIR
+  INSTALL_DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/${PROJECT_NAME}/cmake
 )
 
 # Create the ${PROJECT_NAME}ConfigVersion.cmake.
